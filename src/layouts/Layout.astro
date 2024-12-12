@@ -1,22 +1,42 @@
+---
+import '@fontsource/alfa-slab-one'
+import '@fontsource/port-lligat-slab'
+import { Image } from 'astro:assets'
+import TransparentBrandLogo from '@images/logo-transparent.png'
+---
+
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Néstor Árce | Personal Trainer</title>
+  </head>
+  <body>
+    <nav
+      class="bg-black/70 backdrop-blur-sm border-solid max-h-[15dvh] border-primary-color border-b-2 w-full flex justify-center fixed top-0 z-50"
+      style="box-shadow: 0px 4px 15px 0px rgba(215, 0, 0, 0.3);"
+    >
+      <Image
+        class="w-nav-logo h-auto"
+        src={TransparentBrandLogo}
+        alt="Nestor Arce Logo Oficial"
+      />
+    </nav>
+
+    <slot />
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  html {
+    color-scheme: dark;
+    background: #000;
+  }
+
+  body {
+    font-family: 'League Spartan Variable', sans-serif;
+  }
 </style>

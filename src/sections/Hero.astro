@@ -1,0 +1,86 @@
+---
+import { Icon } from 'astro-icon/components'
+import { Image } from 'astro:assets'
+import HeroBgImg from '@images/hero-background.png'
+
+const benefitsList = [
+  'Nutrición',
+  'Rutina 100% personalizada',
+  'Acompañamiento 24/7',
+  'Comunidad exclusiva',
+  'Plan personalizado',
+  'Coaching en vivo'
+]
+---
+
+<section
+  class="overflow-y-hidden relative max-h-dvh bg-primary-color/5 md:grid md:grid-cols-2"
+>
+  <div
+    class="custom-padding h-dvh px-4 md:mt-10 flex flex-col justify-center max-md:justify-between"
+    style="padding-top: calc(clamp(5rem, 12dvw, 6.5rem));"
+  >
+    <h1
+      class="inline-block [&>span]:text-primary-color text-white text-lg-title max-md:text-center text-balance font-alfa-slab-one uppercase mt-4"
+    >
+      <span>Transforma tu físico sin complicarte</span> con mi plan personalizado
+      de 90 días
+    </h1>
+    <p class="max-md:hidden text-sm mb-4">
+      Ayudo a hombres a transformar su físico sin dietas restrictivas.
+    </p>
+
+    <ul class="max-md:hidden grid grid-cols-2 mb-4">
+      {
+        benefitsList.map((item) => (
+          <li class="flex items-center gap-2 text-sm text-white/60">
+            <Icon name="check-icon" />
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex flex-col max-md:items-center gap-2">
+      <button
+        class="bg-[#4b0a0a] rounded-md border-solid border-[#d70000] border-2 w-full py-2 font-sans text-white text-center text-balance text-md tracking-wider font-bold uppercase"
+        style="box-shadow: 0px 0px 15px 0px rgba(215, 0, 0, 0.5)"
+      >
+        Contáctame
+      </button>
+      <p
+        class="text-[#bbbbbb] text-center font-league-spartan text-xs font-normal mb-6 leading-snug"
+      >
+        En caso de no lograrlo te devolvemos el 100% y te ayudo personalmente
+        hasta conseguir el objetivo (por haberte hecho perder el tiempo).
+      </p>
+    </div>
+  </div>
+
+  <div
+    style="background: radial-gradient(closest-side,rgba(0, 0, 0, 0) 0%,rgba(0, 0, 0, 0.75) 100%);"
+  >
+    <Image
+      src={HeroBgImg}
+      alt="Hero Background"
+      class="size-full object-cover object-center max-md:absolute max-md:top-0 max-md:-z-10"
+    />
+  </div>
+  <div
+    class="md:hidden absolute inset-0 bg-[radial-gradient(closest-side,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.75)_100%)] pointer-events-none -z-10"
+  >
+  </div>
+</section>
+
+<style>
+  .custom-padding {
+    padding-bottom: calc(clamp(5rem, 12dvw, 6.5rem));
+  }
+
+  /* Media query para md */
+  @media (max-width: 768px) {
+    .custom-padding {
+      padding-bottom: 0;
+    }
+  }
+</style>
