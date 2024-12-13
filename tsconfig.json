@@ -10,6 +10,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@scripts/*": [
+        "src/scripts/*"
+      ],
       "@images/*": [
         "public/assets/images/*"
       ],

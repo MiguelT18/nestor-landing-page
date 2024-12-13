@@ -1,7 +1,8 @@
 ---
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
-import HeroBgImg from '@images/hero-background.png'
+import HeroBackground from '@images/hero-background.jpg'
+import HeroForeground from '@images/hero-foreground.png'
 
 const benefitsList = [
   'Nutrición',
@@ -14,10 +15,15 @@ const benefitsList = [
 ---
 
 <section
-  class="overflow-y-hidden relative max-h-dvh bg-primary-color/5 md:grid md:grid-cols-2"
+  class="overflow-hidden relative max-h-dvh md:grid md:grid-cols-2"
+  style="background: radial-gradient(
+      closest-side,
+      rgba(22, 1, 1, .15) 0%,
+      rgba(6, 0, 0, 1) 100%
+    );"
 >
   <div
-    class="custom-padding h-dvh px-4 md:mt-10 flex flex-col justify-center max-md:justify-between"
+    class="custom-padding h-dvh px-4 md:mt-10 flex flex-col justify-center max-md:justify-between relative z-20"
     style="padding-top: calc(clamp(5rem, 12dvw, 6.5rem));"
   >
     <h1
@@ -26,11 +32,12 @@ const benefitsList = [
       <span>Transforma tu físico sin complicarte</span> con mi plan personalizado
       de 90 días
     </h1>
-    <p class="max-md:hidden text-sm mb-4">
-      Ayudo a hombres a transformar su físico sin dietas restrictivas.
+    <p class="max-md:hidden text-sm text-balance mb-6">
+      Ayudo a hombres a transformar su físico sin dietas restrictivas y con un
+      plan personalizado de 90 días.
     </p>
 
-    <ul class="max-md:hidden grid grid-cols-2 mb-4">
+    <ul class="max-md:hidden grid grid-cols-2 mb-6">
       {
         benefitsList.map((item) => (
           <li class="flex items-center gap-2 text-sm text-white/60">
@@ -41,9 +48,11 @@ const benefitsList = [
       }
     </ul>
 
-    <div class="flex flex-col max-md:items-center gap-2">
+    <div
+      class="flex flex-col max-md:max-w-[80%] max-md:mx-auto max-md:items-center gap-2"
+    >
       <button
-        class="bg-[#4b0a0a] rounded-md border-solid border-[#d70000] border-2 w-full py-2 font-sans text-white text-center text-balance text-md tracking-wider font-bold uppercase"
+        class="bg-[#4b0a0a] rounded-md border-solid border-[#d70000] border-2 w-full py-3 font-sans text-white text-center text-balance text-md tracking-wider font-bold uppercase"
         style="box-shadow: 0px 0px 15px 0px rgba(215, 0, 0, 0.5)"
       >
         Contáctame
@@ -57,22 +66,111 @@ const benefitsList = [
     </div>
   </div>
 
-  <div
-    style="background: radial-gradient(closest-side,rgba(0, 0, 0, 0) 0%,rgba(0, 0, 0, 0.75) 100%);"
-  >
-    <Image
-      src={HeroBgImg}
-      alt="Hero Background"
-      class="size-full object-cover object-center max-md:absolute max-md:top-0 max-md:-z-10"
+  <div class="size-full h-dvh md:relative flex items-end justify-center">
+    <div
+      class="absolute z-30 max-md:z-10 inset-0 bg-[radial-gradient(closest-side,rgba(0,0,0,0)_0%,rgba(0,0,0,0.75)_100%)] pointer-events-none"
+    >
+    </div>
+    <Icon
+      id="thunder-icon"
+      name="thunder-vector"
+      class="transition-transform duration-1000 -translate-y-60 translate-x-40 size-full md:max-w-[80%] absolute top-0 md:z-20"
     />
+    <Image
+      id="hero-foreground"
+      src={HeroForeground}
+      alt="Hero Foreground"
+      class="transition-transform duration-500 ease-out scale-0 opacity-0 absolute md:z-20 w-hero-foreground max-w-[900px] md:max-w-[none] h-auto"
+      style="bottom: 0;"
+    />
+
+    <div
+      class="md:relative max-md:absolute max-md:top-0 max-md:-z-10"
+      style="background: radial-gradient(closest-side,rgba(0, 0, 0, 0) 0%,rgba(0, 0, 0, 0.75) 100%);"
+    >
+      <Image
+        src={HeroBackground}
+        alt="Hero Background"
+        class="object-cover md:-scale-x-100"
+      />
+      <div
+        class="backdrop-blur-sm max-md:hidden absolute inset-0 bg-[radial-gradient(closest-side,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.65)_100%)] pointer-events-none"
+      >
+      </div>
+    </div>
   </div>
+
   <div
-    class="md:hidden absolute inset-0 bg-[radial-gradient(closest-side,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.75)_100%)] pointer-events-none -z-10"
+    class="md:hidden absolute inset-0 backdrop-blur-sm bg-[radial-gradient(closest-side,rgba(0,0,0,0.25)_0%,rgba(0,0,0,1)_100%)] pointer-events-none -z-10"
   >
   </div>
 </section>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const $thunderIcon = document.getElementById('thunder-icon') as HTMLElement
+    const $heroForeground = document.getElementById(
+      'hero-foreground'
+    ) as HTMLElement
+    if (!$heroForeground) return
+
+    const observerOptions = {
+      root: null,
+      threshold: 0.2
+    }
+
+    const observerThunderIcon = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const { isIntersecting } = entry
+
+          if (isIntersecting) {
+            entry.target.classList.remove('-translate-y-60', 'translate-x-40')
+            entry.target.classList.add('-translate-y-0', 'translate-x-0')
+          } else {
+            entry.target.classList.remove('-translate-y-0', 'translate-x-0')
+            entry.target.classList.add('-translate-y-60', 'translate-x-40')
+          }
+        })
+      },
+      { ...observerOptions, rootMargin: '10px ' }
+    )
+    observerThunderIcon.observe($thunderIcon)
+
+    const observerForeground = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const { isIntersecting } = entry
+
+          if (isIntersecting) {
+            entry.target.classList.remove('scale-0', 'opacity-0')
+            entry.target.classList.add('scale-100', 'opacity-100')
+          } else {
+            entry.target.classList.remove('scale-100', 'opacity-100')
+            entry.target.classList.add('scale-0', 'opacity-0')
+          }
+        })
+      },
+      { ...observerOptions, rootMargin: '10px' }
+    )
+    observerForeground.observe($heroForeground)
+  })
+</script>
+
 <style>
+  @keyframes thunder-strike {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .thunder-strike {
+    animation: thunder-strike 1.5s ease-in-out forwards;
+  }
+
   .custom-padding {
     padding-bottom: calc(clamp(5rem, 12dvw, 6.5rem));
   }
