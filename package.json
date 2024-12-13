@@ -14,6 +14,7 @@
     "@fontsource/alfa-slab-one": "^5.1.0",
     "astro": "^5.0.5",
     "astro-icon": "^1.1.4",
+    "swiper": "latest",
     "tailwindcss": "^3.4.16"
   }
 }

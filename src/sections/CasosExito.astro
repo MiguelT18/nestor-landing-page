@@ -1,0 +1,230 @@
+---
+import ImageSlide1 from '@images/casos-de-exito/1_antes_despues.png'
+import ImageSlide2 from '@images/casos-de-exito/2_antes_despues.png'
+import ImageSlide3 from '@images/casos-de-exito/3_antes_despues.png'
+import ImageSlide4 from '@images/casos-de-exito/4_antes_despues.png'
+import ImageSlide5 from '@images/casos-de-exito/5_antes_despues.png'
+import ImageSlide6 from '@images/casos-de-exito/6_antes_despues.png'
+import { Icon } from 'astro-icon/components'
+import { Image } from 'astro:assets'
+
+const slides = [
+  ImageSlide1,
+  ImageSlide2,
+  ImageSlide3,
+  ImageSlide4,
+  ImageSlide5,
+  ImageSlide6
+]
+
+const cards = [
+  {
+    icon: 'mancuerna-icon',
+    description: 'Asesoría contínua en la ejecución de ejercicios.'
+  },
+  {
+    icon: 'diet-icon',
+    description: 'Ajustes constantes de los planes.'
+  },
+  {
+    icon: 'performance-icon',
+    description: 'Planificación de suplementos y optimización del rendimiento.'
+  },
+  {
+    icon: 'chat-icon',
+    description: 'Consultas rápidas por chat o WhatsApp.'
+  }
+]
+---
+
+<section class="pb-10 overflow-hidden">
+  <h1
+    class="[&>span]:text-primary-color text-white text-lg-title text-center text-balance font-alfa-slab-one leading-relaxed uppercase pt-8"
+  >
+    Algunos <span>Casos de Éxito</span>
+  </h1>
+
+  <div class="flex items-center md:max-w-[80%] lg:max-w-[60%] mx-auto">
+    <div class="swiper-button-prev"></div>
+
+    <article
+      class="swiper mt-8 max-w-[90%] md:max-w-[70%] lg:max-w-[60%] xl:max-w-[50%] mx-auto"
+    >
+      <div class="swiper-wrapper">
+        {
+          slides.map((slide) => (
+            <div class="swiper-slide">
+              <Image src={slide} alt="Slide" class="size-full object-cover" />
+              <div class="swiper-lazy" />
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="autoplay-progress">
+        <svg viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="20"></circle>
+        </svg>
+        <span></span>
+      </div>
+      <div class="swiper-pagination"></div>
+    </article>
+
+    <div class="swiper-button-next"></div>
+  </div>
+
+  <article
+    class="w-full md:max-w-[80%] mx-auto flex flex-wrap justify-center gap-5 lg:gap-y-16 max-sm:gap-10 mt-10"
+  >
+    {
+      cards.map((card) => (
+        <div class="w-full max-w-[280px] max-md:max-w-[150px] mx-auto">
+          <Icon
+            name={card.icon}
+            class="size-[50px] mx-auto mb-4 text-primary-color/70"
+          />
+          <p class="text-white text-balance text-center text-sm">
+            {card.description}
+          </p>
+        </div>
+      ))
+    }
+  </article>
+</section>
+
+<script>
+  import Swiper from 'swiper/bundle'
+  import 'swiper/css/bundle'
+
+  const progressCircle = document.querySelector(
+    '.autoplay-progress svg'
+  ) as SVGAnimateElement
+  const progressContent = document.querySelector(
+    '.autoplay-progress span'
+  ) as HTMLElement
+
+  new Swiper('.swiper', {
+    loop: true,
+    autoHeight: true,
+    centeredSlides: true,
+    slidesPerView: 1,
+    grabCursor: true,
+    effect: 'cube',
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
+    on: {
+      autoplayTimeLeft(s, time, progress) {
+        const circle = progressCircle.querySelector('circle')
+        if (circle == null) return
+        const circumference = 2 * Math.PI * 20 // Radio del círculo es 20
+        circle.style.strokeDasharray = `${circumference}`
+        circle.style.strokeDashoffset = `${circumference * progress}`
+        progressContent.textContent = `${Math.ceil(time / 1000)}s`
+      }
+    }
+  })
+</script>
+
+<style>
+  .card-icon {
+    color: linear-gradient(to right, #a70a0a 0%, #410404 100%);
+  }
+</style>
+
+<style is:inline>
+  /* .swiper-scrollbar-drag {
+    background: #d70000;
+  }
+
+  .swiper-scrollbar {
+    position: static;
+    background: #340404;
+   } */
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+      display: block;
+      position: static;
+      color: #d70000;
+      transition: all 0.2s linear;
+    }
+
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+      color: #fff;
+    }
+  }
+
+  .swiper-pagination {
+    position: static;
+    margin-top: 20px;
+  }
+
+  .swiper-pagination-bullet {
+    background: #d70000;
+  }
+
+  .autoplay-progress {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: rgba(68, 3, 3, 0.422);
+    border-radius: 50%;
+    border: 1px solid rgba(254, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    z-index: 50;
+  }
+
+  .autoplay-progress svg {
+    width: 48px;
+    height: 48px;
+    transform: rotate(-90deg);
+  }
+
+  .autoplay-progress circle {
+    fill: none;
+    stroke: rgba(255, 0, 0, 0.3);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 126;
+    stroke-dashoffset: 126;
+    transition: stroke-dashoffset 0.1s linear;
+  }
+
+  .autoplay-progress circle[style] {
+    stroke: #d70000;
+    stroke-linecap: round;
+    stroke-dasharray: 126;
+    stroke-dashoffset: calc(126 * var(--progress, 1));
+    transition: stroke-dashoffset 0.1s linear;
+  }
+
+  .autoplay-progress span {
+    position: absolute;
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  }
+</style>
