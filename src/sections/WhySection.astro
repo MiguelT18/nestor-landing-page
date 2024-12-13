@@ -1,0 +1,58 @@
+---
+import PrimaryButton from 'src/components/PrimaryButton.astro'
+---
+
+<section>
+  <h1>¿Por qué elegir mi plan de entrenamiento?</h1>
+
+  <div
+    id="why-image-container"
+    class="scale-0 opacity-0 h-auto w-full max-w-[90%] lg:max-w-[60%] mx-auto aspect-video border-2 rounded-xl relative mt-8 cursor-pointer transition-transform duration-500 ease-out border-primary-color"
+  >
+  </div>
+
+  <p>
+    Estuve en esa "Zona de Confort Invisible", creyendo que solo entrenando más
+    todo cambiaría. Con el tiempo aprendí que se puede salir del estancamiento.
+    Ahora, con mi experiencia, te ofrezco un enfoque personalizado para
+    transformar tu cuerpo y lograr tus metas de manera sostenible y con
+    confianza.
+  </p>
+
+  <PrimaryButton>Quiero cambiar ya!</PrimaryButton>
+</section>
+
+<script>
+  const $whyImageContainer = document.querySelector(
+    '#why-image-container'
+  ) as HTMLElement
+
+  if ($whyImageContainer) {
+    const observerOptions = {
+      root: null,
+      threshold: 0.1,
+      rootMargin: '0px'
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const { isIntersecting, target } = entry
+
+          if (target === $whyImageContainer) {
+            if (isIntersecting) {
+              target.classList.replace('scale-0', 'scale-100')
+              target.classList.replace('opacity-0', 'opacity-100')
+            } else {
+              target.classList.replace('scale-100', 'scale-0')
+              target.classList.replace('opacity-100', 'opacity-0')
+            }
+          }
+        })
+      },
+      { ...observerOptions }
+    )
+
+    observer.observe($whyImageContainer)
+  }
+</script>
