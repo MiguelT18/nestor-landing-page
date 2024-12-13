@@ -9,6 +9,14 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "paths": {
       "@scripts/*": [
         "src/scripts/*"
@@ -17,5 +25,5 @@
         "public/assets/images/*"
       ],
     }
-  }
+  },
 }
