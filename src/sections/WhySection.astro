@@ -1,17 +1,18 @@
 ---
+import { Image } from 'astro:assets'
 import PrimaryButton from 'src/components/PrimaryButton.astro'
+import WhySectionImage from '@images/why-section-image.jpg'
 ---
 
 <section>
-  <h1>¿Por qué elegir mi plan de entrenamiento?</h1>
-
-  <div
-    id="why-image-container"
-    class="scale-0 opacity-0 h-auto w-full max-w-[90%] lg:max-w-[60%] mx-auto aspect-video border-2 rounded-xl relative mt-8 cursor-pointer transition-transform duration-500 ease-out border-primary-color"
+  <h1
+    class="[&>span]:text-primary-color text-white text-lg-title text-center text-balance font-alfa-slab-one leading-relaxed uppercase pt-8"
   >
-  </div>
-
-  <p>
+    ¿Por qué elegir mi <span>plan de entrenamiento?</span>
+  </h1>
+  <p
+    class="text-balance text-center text-sm leading-relaxed mt-2 mb-10 xl:max-w-[50%] mx-auto"
+  >
     Estuve en esa "Zona de Confort Invisible", creyendo que solo entrenando más
     todo cambiaría. Con el tiempo aprendí que se puede salir del estancamiento.
     Ahora, con mi experiencia, te ofrezco un enfoque personalizado para
@@ -19,7 +20,22 @@ import PrimaryButton from 'src/components/PrimaryButton.astro'
     confianza.
   </p>
 
-  <PrimaryButton>Quiero cambiar ya!</PrimaryButton>
+  <div
+    id="why-image-container"
+    class="scale-0 opacity-0 h-auto w-full max-w-[90%] lg:max-w-[60%] mx-auto aspect-video border-2 rounded-xl relative mt-8 transition-transform duration-500 ease-out border-primary-color"
+    style="box-shadow: 0px 0px 25px 0px rgba(215, 0, 0, 0.5);"
+  >
+    <Image
+      src={WhySectionImage}
+      alt="Una imagen de Néstor mostrando su cambio físico"
+      class="size-full object-cover absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 right-1/2 z-10"
+      style="border-radius: inherit;"
+    />
+  </div>
+
+  <div class="w-full max-w-[90%] lg:max-w-[60%] mx-auto py-12">
+    <PrimaryButton>Quiero cambiar ya!</PrimaryButton>
+  </div>
 </section>
 
 <script>
