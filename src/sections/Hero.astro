@@ -23,21 +23,23 @@ const benefitsList = [
     );"
 >
   <div
-    class="custom-padding h-dvh px-4 md:mt-10 flex flex-col justify-center max-md:justify-between relative z-20"
+    class="custom-padding h-dvh px-4 md:mt-10 flex flex-col justify-center max-md:justify-between relative z-20 max-w-[830px] mx-auto"
     style="padding-top: calc(clamp(5rem, 12dvw, 6.5rem));"
   >
     <h1
-      class="inline-block [&>span]:text-primary-color text-white text-lg-title max-md:text-center text-balance font-alfa-slab-one uppercase mt-4"
+      class="inline-block [&>span]:text-primary-color text-white text-lg-title max-md:text-center text-balance font-alfa-slab-one leading-relaxed uppercase mt-4"
     >
       <span>Transforma tu físico sin complicarte</span> con mi plan personalizado
       de 90 días
     </h1>
-    <p class="max-md:hidden text-sm text-balance mb-6">
+    <p
+      class="max-md:hidden text-sm text-pretty leading-relaxed max-lg:mb-6 mb-10"
+    >
       Ayudo a hombres a transformar su físico sin dietas restrictivas y con un
       plan personalizado de 90 días.
     </p>
 
-    <ul class="max-md:hidden grid grid-cols-2 mb-6">
+    <ul class="max-md:hidden grid grid-cols-2 max-lg:mb-6 mb-10 gap-2">
       {
         benefitsList.map((item) => (
           <li class="flex items-center gap-2 text-sm text-white/60">
@@ -49,7 +51,7 @@ const benefitsList = [
     </ul>
 
     <div
-      class="flex flex-col max-md:max-w-[80%] max-md:mx-auto max-md:items-center gap-2"
+      class="flex flex-col max-md:max-w-[80%] max-md:mx-auto max-md:items-center gap-4 max-lg:gap-2"
     >
       <button
         class="bg-[#4b0a0a] rounded-md border-solid border-[#d70000] border-2 w-full py-3 font-sans text-white text-center text-balance text-md tracking-wider font-bold uppercase"
@@ -58,7 +60,7 @@ const benefitsList = [
         Contáctame
       </button>
       <p
-        class="text-[#bbbbbb] text-center font-league-spartan text-xs font-normal mb-6 leading-snug"
+        class="text-[#bbbbbb] text-center text-xs font-normal mb-6 leading-snug"
       >
         En caso de no lograrlo te devolvemos el 100% y te ayudo personalmente
         hasta conseguir el objetivo (por haberte hecho perder el tiempo).
@@ -66,15 +68,15 @@ const benefitsList = [
     </div>
   </div>
 
-  <div class="size-full h-dvh md:relative flex items-end justify-center">
+  <div class="size-fit mx-auto h-dvh md:relative flex items-end justify-center">
     <div
-      class="absolute z-30 max-md:z-10 inset-0 bg-[radial-gradient(closest-side,rgba(0,0,0,0)_0%,rgba(0,0,0,0.75)_100%)] pointer-events-none"
+      class="absolute z-30 max-md:z-10 inset-0 max-md:bg-[radial-gradient(closest-side,rgba(0,0,0,0)_0%,rgba(0,0,0,0.45)_100%)] bg-[radial-gradient(closest-side,rgba(0,0,0,0)_0%,rgba(0,0,0,0.85)_100%)] pointer-events-none xl:opacity-0"
     >
     </div>
     <Icon
       id="thunder-icon"
       name="thunder-vector"
-      class="transition-transform duration-1000 -translate-y-60 translate-x-40 size-full md:max-w-[80%] absolute top-0 md:z-20"
+      class="transition-transform duration-1000 -translate-y-60 translate-x-40 size-full md:max-w-[80%] absolute top-0 md:z-20 max-md:text-white/50"
     />
     <Image
       id="hero-foreground"
@@ -85,25 +87,22 @@ const benefitsList = [
     />
 
     <div
-      class="md:relative max-md:absolute max-md:top-0 max-md:-z-10"
-      style="background: radial-gradient(closest-side,rgba(0, 0, 0, 0) 0%,rgba(0, 0, 0, 0.75) 100%);"
+      class="overflow-hidden md:relative size-full max-md:absolute max-md:top-0 max-md:-z-10 xl:opacity-0"
+      style="background: radial-gradient(closest-side,rgba(0, 0, 0, 0) 0%,rgba(0, 0, 0, 0.65) 100%);"
     >
       <Image
         src={HeroBackground}
         alt="Hero Background"
-        class="object-cover md:-scale-x-100"
+        class="size-full object-cover md:-scale-x-100"
       />
       <div
-        class="backdrop-blur-sm max-md:hidden absolute inset-0 bg-[radial-gradient(closest-side,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.65)_100%)] pointer-events-none"
+        class="backdrop-blur-sm max-md:hidden absolute inset-0 pointer-events-none"
       >
       </div>
     </div>
   </div>
 
-  <div
-    class="md:hidden absolute inset-0 backdrop-blur-sm bg-[radial-gradient(closest-side,rgba(0,0,0,0.25)_0%,rgba(0,0,0,1)_100%)] pointer-events-none -z-10"
-  >
-  </div>
+  <div class="md:hidden absolute inset-0 backdrop-blur-sm -z-10"></div>
 </section>
 
 <script>
