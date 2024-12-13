@@ -1,0 +1,82 @@
+---
+import { Icon } from 'astro-icon/components'
+
+const FAQItems = [
+  {
+    question: '¿Es Néstor Árce un Personal Trainer?',
+    answer:
+      'Sí, Néstor Árce es un Personal Trainer. Él es un entrenador de ejercicios que se enfoca en mejorar la fuerza, la resistencia y otros aspectos de la estructura muscular. Él es capaz de ayudar a las personas a alcanzar sus metas de manera sostenible y con confianza.'
+  },
+  {
+    question: '¿Cuánto tiempo a la semana le tengo que dedicar?',
+    answer:
+      'A lo largo de la semana, Néstor Árce dedica una cantidad de tiempo que depende de la cantidad de ejercicios que se realizan. Sin embargo, es importante tener en cuenta que cada persona es diferente y que la cantidad de tiempo que debes dedicar depende de tus metas y objetivos.'
+  },
+  {
+    question: '¿Cuánto tiempo tomará ver resultados visibles?',
+    answer:
+      'Los resultados visibles pueden variar dependiendo de la cantidad de ejercicios que se realizan y la intensidad de los mismos. Sin embargo, en general, los resultados visibles se pueden alcanzar en un plazo de 12 a 18 meses.'
+  },
+  {
+    question: '¿Cuánto tiempo dura el programa?',
+    answer:
+      'El programa de Néstor Árce dura aproximadamente 12 a 18 meses. Sin embargo, es importante tener en cuenta que cada persona es diferente y que la cantidad de tiempo que debes dedicar depende de tus metas y objetivos.'
+  },
+  {
+    question: '¿Tengo que ser de Bolivia para participar?',
+    answer:
+      'No, Néstor Árce no requiere de haber residido en Bolivia para participar en su programa. Sin embargo, es importante tener en cuenta que cada persona es diferente y que la cantidad de tiempo que debes dedicar depende de tus metas y objetivos.'
+  }
+]
+---
+
+<section
+  class="pb-16"
+  style="
+background: radial-gradient(
+  closest-side,
+  rgba(22, 1, 1, 1) 0%,
+  rgba(6, 0, 0, 1) 100%
+);"
+>
+  <h1
+    class="text-white text-lg-title text-center text-balance font-alfa-slab-one leading-relaxed uppercase pt-8"
+  >
+    Preguntas frecuentes
+  </h1>
+
+  <div
+    class="w-full max-w-[90%] md:max-w-[60%] lg:max-w-[50%] mx-auto mt-6 flex flex-col gap-5"
+  >
+    {
+      FAQItems.map((item) => (
+        <div class="faq-container flex flex-col gap-2 p-4 border-2 border-primary-color rounded-xl cursor-pointer transition-all duration-300 ease-out md:hover:scale-105 hover:border-primary-color/50 group">
+          <div class="flex justify-between items-center">
+            <h2 class="w-fit text-balance text-sm md:text-md font-bold uppercase group-hover:text-primary-color/50">
+              {item.question}
+            </h2>
+
+            <Icon
+              name="arrow-icon"
+              class="size-[36px] h-auto text-primary-color/70 rounded-full border-2 border-primary-color group-hover:border-primary-color/50 group-hover:text-primary-color/50 p-1"
+            />
+          </div>
+
+          <p class="text-balance text-sm text-white/80 mt-2 hidden -translate-y-full">
+            {item.answer}
+          </p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .faq-container {
+    box-shadow: 0px 0px 10px 0px rgba(215, 0, 0, 0.3);
+  }
+
+  .faq-container:hover {
+    box-shadow: 0px 0px 5px 0px rgba(215, 0, 0, 0.3);
+  }
+</style>

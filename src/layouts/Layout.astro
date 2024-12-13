@@ -16,7 +16,7 @@ import TransparentBrandLogo from '@images/logo-transparent.png'
   <body>
     <nav
       class="bg-black/70 backdrop-blur-sm border-solid max-h-[15dvh] border-primary-color border-b-2 w-full flex justify-center absolute top-0 z-50"
-      style="box-shadow: 0px 4px 15px 0px rgba(215, 0, 0, 0.3);"
+      style="box-shadow: 0px 10px 15px 0px rgba(215, 0, 0, 0.3);"
     >
       <Image
         class="w-nav-logo h-auto"
@@ -25,7 +25,16 @@ import TransparentBrandLogo from '@images/logo-transparent.png'
       />
     </nav>
 
-    <slot />
+    <main>
+      <slot />
+    </main>
+
+    <footer
+      class="min-h-[10dvh] grid place-content-center text-center text-sm border-t-2 border-primary-color"
+      style="box-shadow: 0px -5px 15px 0px rgba(215, 0, 0, 0.2);"
+    >
+      Todos los derechos reservados.
+    </footer>
   </body>
 </html>
 
