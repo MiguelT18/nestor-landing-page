@@ -3,6 +3,7 @@ import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 import HeroBackground from '@images/hero-background.jpg'
 import HeroForeground from '@images/hero-foreground.png'
+import PrimaryButton from 'src/components/PrimaryButton.astro'
 
 const benefitsList = [
   'Nutrición',
@@ -53,12 +54,7 @@ const benefitsList = [
     <div
       class="flex flex-col max-md:max-w-[80%] max-md:mx-auto max-md:items-center gap-4 max-lg:gap-2"
     >
-      <button
-        class="bg-[#4b0a0a] rounded-md border-solid border-[#d70000] border-2 w-full py-3 font-sans text-white text-center text-balance text-md tracking-wider font-bold uppercase"
-        style="box-shadow: 0px 0px 15px 0px rgba(215, 0, 0, 0.5)"
-      >
-        Contáctame
-      </button>
+      <PrimaryButton>Contáctame</PrimaryButton>
       <p
         class="text-[#bbbbbb] text-center text-xs font-normal mb-6 leading-snug"
       >
@@ -76,7 +72,7 @@ const benefitsList = [
     <Icon
       id="thunder-icon"
       name="thunder-vector"
-      class="transition-transform duration-1000 -translate-y-60 translate-x-40 size-full md:max-w-[80%] absolute top-0 md:z-20 max-md:text-white/50"
+      class="transition-transform duration-1000 -translate-y-60 translate-x-40 size-full md:max-w-[80%] absolute top-0 md:z-20 max-md:text-white/80"
     />
     <Image
       id="hero-foreground"

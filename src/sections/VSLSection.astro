@@ -1,0 +1,92 @@
+---
+import { Icon } from 'astro-icon/components'
+import PrimaryButton from 'src/components/PrimaryButton.astro'
+import Skeleton from 'src/components/Skeleton.astro'
+---
+
+<section
+  style="
+    background: radial-gradient(
+      closest-side,
+      rgba(22, 1, 1, 1) 0%,
+      rgba(6, 0, 0, 1) 100%
+    );"
+>
+  <div id="vsl-header" class="px-4">
+    <h1
+      class="[&>span]:text-primary-color text-white text-lg-title text-center text-balance font-alfa-slab-one leading-relaxed uppercase pt-8"
+    >
+      Te cuento cómo <span>puedes lograrlo...</span>
+    </h1>
+
+    <p
+      class="text-white leading-relaxed text-sm text-center text-balance w-full max-w-[90%] lg:max-w-[60%] mx-auto mb-5 mt-2"
+    >
+      Mira el video completo para conocer con detalle cómo con mi plan he
+      ayudado a cientos de personas a salir del estancamiento y conseguir sus
+      objetivos.
+    </p>
+  </div>
+
+  <div
+    class="video-container scale-0 opacity-0 h-auto w-full max-w-[90%] lg:max-w-[70%] mx-auto aspect-video border-2 rounded-xl relative mt-8 cursor-pointer transition-transform duration-500 ease-out border-primary-color"
+  >
+    <Skeleton />
+    <Icon
+      name="play-icon"
+      class="size-[60px] text-primary-color/30 absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 right-1/2"
+    />
+  </div>
+
+  <div class="w-full max-w-[90%] lg:max-w-[60%] mx-auto mt-12 md:mt-16 pb-12">
+    <PrimaryButton>¡Quiero cambiar!</PrimaryButton>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // to-do: observer $VSLHeader
+    const $VSLHeader = document.getElementById('vsl-header') as HTMLElement
+    const $videoContainer = document.querySelector(
+      '.video-container'
+    ) as HTMLElement
+    if (!$videoContainer || !$VSLHeader) return
+
+    const observerOptions = {
+      root: null,
+      threshold: 0.5,
+      rootMargin: '100px'
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const { isIntersecting, target } = entry
+
+          if (target === $videoContainer) {
+            if (isIntersecting) {
+              target.classList.replace('scale-0', 'scale-100')
+              target.classList.replace('opacity-0', 'opacity-100')
+            } else {
+              target.classList.replace('scale-100', 'scale-0')
+              target.classList.replace('opacity-100', 'opacity-0')
+            }
+          }
+        })
+      },
+      { ...observerOptions }
+    )
+
+    observer.observe($videoContainer)
+  })
+</script>
+
+<style>
+  .video-container {
+    box-shadow: 0px 0px 20px 0px rgba(215, 0, 0, 0.5);
+  }
+
+  .video-container:hover {
+    box-shadow: 0px 0px 30px 0px rgba(215, 0, 0, 0.5);
+  }
+</style>
