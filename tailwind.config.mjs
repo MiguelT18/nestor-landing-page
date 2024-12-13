@@ -15,9 +15,9 @@ export default {
         'league-spartan': ['League Spartan Variable', 'sans-serif'],
       },
       fontSize: {
-        'lg-title': ['clamp(1.3rem, 2.5dvw, 2rem)'],
+        'lg-title': ['clamp(1.4rem, 2.5dvw, 2rem)'],
         md: ['clamp(1.25rem, 2.5dvw, 1.35rem)'],
-        sm: ['clamp(1rem, 2dvw, 1.250rem)'], 
+        sm: ['clamp(1.1rem, 2dvw, 1.250rem)'], 
         xs: ['clamp(0.75rem, 1.5dvw, 0.875rem)'],
       }
     },

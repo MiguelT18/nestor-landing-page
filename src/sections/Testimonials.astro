@@ -1,0 +1,79 @@
+---
+import { Image } from 'astro:assets'
+
+const testimonials = [
+  '¡Empecé con Néstor y estoy más fuerte que nunca! 💪 Siempre motivándome y ajustando el plan a mis necesidades. ¡Totalmente recomendable! 🤩',
+  'No creía que un plan de entrenamiento pudiera cambiar tanto mi cuerpo y mente. 😤🔥 ¡Los resultados son increíbles! 💥💯',
+  'Pensé que no podía ser constante, pero Néstor lo hizo posible. 💪 ¡Mis amigos ya no me reconocen! 😂🔥',
+  'Néstor es el entrenador perfecto. 💯 Empecé sin saber nada y ahora me siento como un pro. 🤓 ¡Los resultados siguen llegando! 💥',
+  'Me cambió la vida. 😆 Los ejercicios más duros se sienten fáciles con él. ¡Nunca me sentí tan bien! 10/10 ⭐️💪',
+  'Le debo mucho a Néstor 🙏 Me guió de forma clara y siempre está pendiente. Estoy más motivado que nunca. 🔥',
+  'Estaba estancado, pero Néstor me dio el empujón que necesitaba. 💥 ¡Mis progresos son brutales! 💪',
+  'Mi vida cambió con el plan de Néstor. 😎 ¡Nunca pierdo la motivación! Mi progreso es brutal. 💪🚀'
+]
+
+const response = await fetch('https://randomuser.me/api/?results=8')
+const data = await response.json()
+
+const users = data.results.map((user: any, index: number) => ({
+  name: `${user.name.first} ${user.name.last}`,
+  username: user.login.username,
+  image: user.picture.large,
+  testimonial: testimonials[index]
+}))
+---
+
+<section
+  class="overflow-hidden pb-10"
+  style="
+background: radial-gradient(
+  closest-side,
+  rgba(22, 1, 1, 1) 0%,
+  rgba(6, 0, 0, 1) 100%
+);"
+>
+  <h1
+    class="text-white text-lg-title text-center text-balance font-alfa-slab-one leading-relaxed uppercase pt-8"
+  >
+    ¿Qué opinan mis estudiantes del plan?
+  </h1>
+
+  <div class="flex items-center md:max-w-[80%] lg:max-w-[60%] mx-auto">
+    <div class="swiper-button-prev"></div>
+    <article class="swiper w-full max-md:max-w-[90%] max-w-[700px] mt-10">
+      <div class="swiper-wrapper">
+        {
+          users.map((user: any) => (
+            <div
+              class="swiper-slide w-full h-auto bg-primary-color/5 rounded-xl p-4 border-primary-color border-2"
+              style="box-shadow: 0px 0px 15px 0px rgba(215, 0, 0, 0.5);"
+            >
+              <div class="flex items-center">
+                <Image
+                  src={user.image}
+                  width={16}
+                  height={16}
+                  alt="User"
+                  class="size-14 md:size-16 rounded-full object-cover"
+                />
+                <div class="flex flex-col ml-4 gap-1">
+                  <span class="text-white text-balance text-lg">
+                    {user.name}
+                  </span>
+                  <span class="text-white/60">@{user.username}</span>
+                </div>
+              </div>
+
+              <p class="text-white text-pretty text-sm leading-relaxed mt-4">
+                {user.testimonial}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="swiper-pagination"></div>
+    </article>
+    <div class="swiper-button-next"></div>
+  </div>
+</section>
