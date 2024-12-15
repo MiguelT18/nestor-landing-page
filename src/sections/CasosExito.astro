@@ -50,7 +50,7 @@ const cards = [
               <img
                 src={slide}
                 alt="Slide"
-                class="size-full object-cover"
+                class="w-full h-auto object-cover"
                 loading="lazy"
               />
               <div class="swiper-lazy-preloader swiper-lazy-preloader-white" />
@@ -102,7 +102,6 @@ const cards = [
   ) as HTMLElement
 
   new Swiper('.swiper', {
-    lazy: true,
     loop: true,
     autoHeight: true,
     slidesPerView: 1,
@@ -120,6 +119,7 @@ const cards = [
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev'
     },
+    lazy: true,
     on: {
       autoplayTimeLeft(s, time, progress) {
         const circle = progressCircle.querySelector('circle')
