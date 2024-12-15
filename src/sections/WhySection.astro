@@ -22,7 +22,7 @@ import WhySectionImage from '@images/why-section-image.jpg'
 
   <div
     id="why-image-container"
-    class="scale-0 opacity-0 h-auto w-full max-w-[90%] lg:max-w-[60%] mx-auto aspect-video border-2 rounded-xl relative mt-8 transition-transform duration-500 ease-out border-primary-color"
+    class="scale-50 opacity-0 h-auto w-full max-w-[90%] lg:max-w-[60%] mx-auto aspect-video border-2 rounded-xl relative mt-8 transition-transform duration-500 ease-out border-primary-color"
     style="box-shadow: 0px 0px 25px 0px rgba(215, 0, 0, 0.5);"
   >
     <Image
@@ -57,10 +57,10 @@ import WhySectionImage from '@images/why-section-image.jpg'
 
           if (target === $whyImageContainer) {
             if (isIntersecting) {
-              target.classList.replace('scale-0', 'scale-100')
+              target.classList.replace('scale-50', 'scale-100')
               target.classList.replace('opacity-0', 'opacity-100')
             } else {
-              target.classList.replace('scale-100', 'scale-0')
+              target.classList.replace('scale-100', 'scale-50')
               target.classList.replace('opacity-100', 'opacity-0')
             }
           }

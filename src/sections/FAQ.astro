@@ -46,23 +46,27 @@ background: radial-gradient(
   </h1>
 
   <div
-    class="w-full max-w-[90%] md:max-w-[60%] lg:max-w-[50%] mx-auto mt-6 flex flex-col gap-5"
+    class="w-full max-w-[90%] lg:max-w-[60%] mx-auto mt-6 flex flex-col gap-5"
   >
     {
-      FAQItems.map((item) => (
-        <div class="faq-container flex flex-col gap-2 p-4 border-2 border-primary-color rounded-xl cursor-pointer transition-all duration-300 ease-out md:hover:scale-105 hover:border-primary-color/50 group">
-          <div class="flex justify-between items-center">
-            <h2 class="w-fit text-balance text-sm md:text-md font-bold uppercase group-hover:text-primary-color/50">
+      FAQItems.map((item, index) => (
+        <div
+          data-faq={`faq-item-${index}`}
+          class="faq-container flex flex-col gap-2 p-4 border-2 border-primary-color rounded-xl cursor-pointer active:scale-90 transition-all duration-300 ease-out lg:hover:border-primary-color/50 group"
+        >
+          <div class="faq-question flex justify-between items-center">
+            <h2 class="w-fit text-balance text-sm font-bold uppercase lg:group-hover:text-primary-color/50">
               {item.question}
             </h2>
 
             <Icon
+              data-faq-icon={`faq-icon-${index}`}
               name="arrow-icon"
-              class="size-[36px] h-auto text-primary-color/70 rounded-full border-2 border-primary-color group-hover:border-primary-color/50 group-hover:text-primary-color/50 p-1"
+              class="faq-icon transform duration-300 rotate-0 size-[36px] h-auto text-primary-color/70 rounded-full border-2 border-primary-color lg:group-hover:border-primary-color/50 lg:group-hover:text-primary-color/50 p-1"
             />
           </div>
 
-          <p class="text-balance text-sm text-white/80 mt-2 hidden -translate-y-full">
+          <p class="faq-answer text-balance text-sm text-white/80 mt-2 hidden -translate-y-full">
             {item.answer}
           </p>
         </div>
@@ -70,6 +74,67 @@ background: radial-gradient(
     }
   </div>
 </section>
+
+<script>
+  const $faqItems = document.querySelectorAll(
+    '[data-faq]'
+  ) as NodeListOf<HTMLElement>
+
+  // crear función para abrir FAQ
+  function openFAQ(faqAnswer: HTMLElement, faqIcon: HTMLElement) {
+    faqAnswer.classList.remove('hidden', '-translate-y-full')
+    faqIcon.classList.add('rotate-180')
+  }
+
+  function closeFaq(faqAnswer: HTMLElement, faqIcon: HTMLElement) {
+    faqAnswer.classList.add('hidden', '-translate-y-full')
+    faqIcon.classList.remove('rotate-180')
+  }
+
+  $faqItems.forEach((item) => {
+    const faqAnswer = item.querySelector(
+      '[data-faq] .faq-answer'
+    ) as HTMLElement
+    const faqIcon = item.querySelector('[data-faq] .faq-icon') as HTMLElement
+
+    // abrir FAQ cuando se hace click en el item
+    item.addEventListener('click', (event) => {
+      event.stopPropagation()
+      const isActive = item.classList.contains('active')
+
+      document.querySelectorAll('.faq-container.active').forEach((openItem) => {
+        if (openItem !== item) {
+          const openAnswer = openItem.querySelector(
+            '.faq-answer'
+          ) as HTMLElement
+          const openIcon = openItem.querySelector('.faq-icon') as HTMLElement
+          closeFaq(openAnswer, openIcon)
+          openItem.classList.remove('active')
+        }
+      })
+
+      if (isActive) {
+        closeFaq(faqAnswer, faqIcon)
+        item.classList.remove('active')
+      } else {
+        openFAQ(faqAnswer, faqIcon)
+        item.classList.add('active')
+      }
+    })
+
+    item.addEventListener('mouseenter', () => {
+      if (!item.classList.contains('active')) {
+        openFAQ(faqAnswer as HTMLElement, faqIcon)
+      }
+    })
+
+    item.addEventListener('mouseleave', () => {
+      if (!item.classList.contains('active')) {
+        closeFaq(faqAnswer as HTMLElement, faqIcon)
+      }
+    })
+  })
+</script>
 
 <style>
   .faq-container {
