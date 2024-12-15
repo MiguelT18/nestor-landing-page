@@ -1,20 +1,13 @@
 ---
-import ImageSlide1 from '@images/casos-de-exito/1_antes_despues.png'
-import ImageSlide2 from '@images/casos-de-exito/2_antes_despues.png'
-import ImageSlide3 from '@images/casos-de-exito/3_antes_despues.png'
-import ImageSlide4 from '@images/casos-de-exito/4_antes_despues.png'
-import ImageSlide5 from '@images/casos-de-exito/5_antes_despues.png'
-import ImageSlide6 from '@images/casos-de-exito/6_antes_despues.png'
 import { Icon } from 'astro-icon/components'
-import { Image } from 'astro:assets'
 
 const slides = [
-  ImageSlide1,
-  ImageSlide2,
-  ImageSlide3,
-  ImageSlide4,
-  ImageSlide5,
-  ImageSlide6
+  '/assets/images/casos-de-exito/1_antes_despues.png',
+  '/assets/images/casos-de-exito/2_antes_despues.png',
+  '/assets/images/casos-de-exito/3_antes_despues.png',
+  '/assets/images/casos-de-exito/4_antes_despues.png',
+  '/assets/images/casos-de-exito/5_antes_despues.png',
+  '/assets/images/casos-de-exito/6_antes_despues.png'
 ]
 
 const cards = [
@@ -54,7 +47,13 @@ const cards = [
         {
           slides.map((slide) => (
             <div class="swiper-slide">
-              <Image src={slide} alt="Slide" class="size-full object-cover" />
+              <img
+                src={slide}
+                alt="Slide"
+                class="size-full object-cover"
+                loading="lazy"
+              />
+              <div class="swiper-lazy-preloader swiper-lazy-preloader-white" />
             </div>
           ))
         }
@@ -103,6 +102,7 @@ const cards = [
   ) as HTMLElement
 
   new Swiper('.swiper', {
+    lazy: true,
     loop: true,
     autoHeight: true,
     slidesPerView: 1,
