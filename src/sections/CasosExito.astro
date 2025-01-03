@@ -1,14 +1,14 @@
 ---
 import { Icon } from 'astro-icon/components'
+import { Image } from 'astro:assets'
+import Image1 from 'public/assets/images/casos-de-exito/1_antes_despues.png'
+import Image2 from '/public/assets/images/casos-de-exito/2_antes_despues.png'
+import Image3 from '/public/assets/images/casos-de-exito/3_antes_despues.png'
+import Image4 from '/public/assets/images/casos-de-exito/4_antes_despues.png'
+import Image5 from '/public/assets/images/casos-de-exito/5_antes_despues.png'
+import Image6 from '/public/assets/images/casos-de-exito/6_antes_despues.png'
 
-const slides = [
-  '/assets/images/casos-de-exito/1_antes_despues.png',
-  '/assets/images/casos-de-exito/2_antes_despues.png',
-  '/assets/images/casos-de-exito/3_antes_despues.png',
-  '/assets/images/casos-de-exito/4_antes_despues.png',
-  '/assets/images/casos-de-exito/5_antes_despues.png',
-  '/assets/images/casos-de-exito/6_antes_despues.png'
-]
+const slides = [Image1, Image2, Image3, Image4, Image5, Image6]
 
 const cards = [
   {
@@ -37,24 +37,16 @@ const cards = [
     Algunos <span>Casos de Éxito</span>
   </h1>
 
-  <div class="flex items-center md:max-w-[80%] lg:max-w-[60%] mx-auto">
-    <div class="swiper-button-prev"></div>
+  <div class="flex items-center">
+    <div class="swiper-button-prev mx-4"></div>
 
-    <article
-      class="swiper mt-8 max-w-[90%] md:max-w-[70%] lg:max-w-[60%] xl:max-w-[50%] mx-auto"
-    >
+    <div class="swiper mt-8">
       <div class="swiper-wrapper">
         {
           slides.map((slide) => (
-            <div class="swiper-slide">
-              <img
-                src={slide}
-                alt="Slide"
-                class="w-full h-auto object-cover"
-                loading="lazy"
-              />
-              <div class="swiper-lazy-preloader swiper-lazy-preloader-white" />
-            </div>
+            <article class="swiper-slide max-md:px-4">
+              <Image src={slide} alt="Slide" class="size-full object-cover" />
+            </article>
           ))
         }
       </div>
@@ -66,9 +58,9 @@ const cards = [
         <span></span>
       </div>
       <div class="swiper-pagination"></div>
-    </article>
+    </div>
 
-    <div class="swiper-button-next"></div>
+    <div class="swiper-button-next mx-4"></div>
   </div>
 
   <article
@@ -102,11 +94,26 @@ const cards = [
   ) as HTMLElement
 
   new Swiper('.swiper', {
+    breakpoints: {
+      // Pantallas pequeñas (por ejemplo, celulares)
+      0: {
+        slidesPerView: 1
+      },
+      // Pantallas medianas (por ejemplo, tablets)
+      768: {
+        slidesPerView: 2
+      },
+      // Pantallas grandes (por ejemplo, desktop)
+      1024: {
+        slidesPerView: 3
+      }
+    },
     loop: true,
-    autoHeight: true,
-    slidesPerView: 1,
+    centeredSlides: true,
+    spaceBetween: 10,
+    slidesPerView: 3,
     grabCursor: true,
-    effect: 'cube',
+    effect: 'coverflow',
     autoplay: {
       delay: 3000,
       disableOnInteraction: false
@@ -119,7 +126,6 @@ const cards = [
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev'
     },
-    lazy: true,
     on: {
       autoplayTimeLeft(s, time, progress) {
         const circle = progressCircle.querySelector('circle')

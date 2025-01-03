@@ -38,16 +38,15 @@ background: radial-gradient(
     ¿Qué opinan mis estudiantes del plan?
   </h1>
 
-  <div
-    class="flex justify-center items-center md:max-w-[80%] lg:max-w-[60%] mx-auto"
-  >
-    <div class="swiper-button-prev mr-10"></div>
-    <article class="swiper w-full max-md:max-w-[90%] max-w-[700px] mt-10">
-      <div class="swiper-wrapper">
+  <div class="flex items-center">
+    <div class="swiper-button-prev mx-4"></div>
+
+    <article class="swiper mt-8 max-md:max-w-[95%]">
+      <div class="swiper-wrapper flex items-stretch py-4">
         {
           users.map((user: any) => (
-            <div
-              class="swiper-slide w-full h-auto bg-primary-color/5 rounded-xl p-4 border-primary-color border-2"
+            <article
+              class="swiper-slide bg-primary-color/5 rounded-xl p-4 border-primary-color border-2"
               style="box-shadow: 0px 0px 15px 0px rgba(215, 0, 0, 0.5);"
             >
               <div class="flex items-center">
@@ -69,13 +68,14 @@ background: radial-gradient(
               <p class="text-white text-pretty text-sm leading-relaxed mt-4">
                 {user.testimonial}
               </p>
-            </div>
+            </article>
           ))
         }
       </div>
 
       <div class="swiper-pagination"></div>
     </article>
-    <div class="swiper-button-next ml-10"></div>
+
+    <div class="swiper-button-next mx-4"></div>
   </div>
 </section>
