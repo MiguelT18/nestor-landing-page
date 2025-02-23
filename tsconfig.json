@@ -23,7 +23,9 @@
       ],
       "@images/*": [
         "public/assets/images/*"
-      ],
-    }
-  },
+      ]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  }
 }

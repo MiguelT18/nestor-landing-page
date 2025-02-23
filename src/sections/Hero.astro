@@ -1,18 +1,18 @@
 ---
-import { Icon } from 'astro-icon/components'
-import { Image } from 'astro:assets'
-import HeroBackground from '@images/hero-background.jpg'
-import HeroForeground from '@images/hero-foreground.png'
-import PrimaryButton from 'src/components/PrimaryButton.astro'
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import HeroBackground from "@images/hero-background.jpg";
+import HeroForeground from "@images/hero-foreground.png";
+import PrimaryButton from "src/components/ui/PrimaryButton.astro";
 
 const benefitsList = [
-  'Nutrición',
-  'Rutina 100% personalizada',
-  'Acompañamiento 24/7',
-  'Comunidad exclusiva',
-  'Plan personalizado',
-  'Coaching en vivo'
-]
+  "Nutrición",
+  "Rutina 100% personalizada",
+  "Acompañamiento 24/7",
+  "Comunidad exclusiva",
+  "Plan personalizado",
+  "Coaching en vivo",
+];
 ---
 
 <section
@@ -28,7 +28,7 @@ const benefitsList = [
     style="padding-top: calc(clamp(5rem, 12dvw, 6.5rem));"
   >
     <h1
-      class="inline-block [&>span]:text-primary-color text-white text-lg-title max-md:text-center text-balance font-alfa-slab-one leading-relaxed uppercase mt-4"
+      class="hero-title duration-700 ease-in-out -translate-x-[80%] inline-block [&>span]:text-primary-color text-white text-lg-title max-md:text-center text-balance font-alfa-slab-one leading-relaxed uppercase mt-4"
     >
       <span>Transforma tu físico sin complicarte</span> con mi plan personalizado
       de 90 días
@@ -78,7 +78,7 @@ const benefitsList = [
       id="hero-foreground"
       src={HeroForeground}
       alt="Hero Foreground"
-      class="transition-transform duration-300 ease-out scale-0 opacity-0 absolute md:z-20 w-hero-foreground max-w-[900px] md:max-w-[none] h-auto"
+      class="transition-transform duration-700 ease-out scale-0 opacity-0 absolute md:z-20 w-hero-foreground md:max-w-[90%] h-auto"
       style="bottom: 0;"
     />
 
@@ -102,54 +102,81 @@ const benefitsList = [
 </section>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const $thunderIcon = document.getElementById('thunder-icon') as HTMLElement
+  document.addEventListener("DOMContentLoaded", () => {
+    const $thunderIcon = document.getElementById("thunder-icon") as HTMLElement;
     const $heroForeground = document.getElementById(
-      'hero-foreground'
-    ) as HTMLElement
-    if (!$heroForeground) return
+      "hero-foreground"
+    ) as HTMLElement;
+    const $heroTitle = document.querySelector(".hero-title")! as HTMLElement;
 
     const observerOptions = {
       root: null,
-      threshold: 0.2
+      threshold: 0.1,
+    };
+
+    const titleObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Al entrar en pantalla
+            entry.target.classList.replace(
+              "-translate-x-[80%]",
+              "translate-x-0"
+            );
+          } else {
+            // Al salir de la pantalla
+            entry.target.classList.replace(
+              "translate-x-0",
+              "-translate-x-[80%]"
+            );
+          }
+        });
+      },
+      { root: null, threshold: 0.1, rootMargin: "0px" }
+    );
+
+    // Observa el título
+    if ($heroTitle) {
+      titleObserver.observe($heroTitle);
+      // También puedes usar animate($heroTitle, ...) acá
     }
 
     const observerThunderIcon = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const { isIntersecting } = entry
+          const { isIntersecting } = entry;
 
           if (isIntersecting) {
-            entry.target.classList.remove('-translate-y-60', 'translate-x-40')
-            entry.target.classList.add('-translate-y-0', 'translate-x-0')
+            entry.target.classList.remove("-translate-y-60", "translate-x-40");
+            entry.target.classList.add("-translate-y-0", "translate-x-0");
           } else {
-            entry.target.classList.remove('-translate-y-0', 'translate-x-0')
-            entry.target.classList.add('-translate-y-60', 'translate-x-40')
+            entry.target.classList.remove("-translate-y-0", "translate-x-0");
+            entry.target.classList.add("-translate-y-60", "translate-x-40");
           }
-        })
+        });
       },
-      { ...observerOptions, rootMargin: '10px ' }
-    )
-    observerThunderIcon.observe($thunderIcon)
+      { ...observerOptions, rootMargin: "0px" }
+    );
+    observerThunderIcon.observe($thunderIcon);
 
     const observerForeground = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const { isIntersecting } = entry
+          const { isIntersecting } = entry;
 
           if (isIntersecting) {
-            entry.target.classList.remove('scale-0', 'opacity-0')
-            entry.target.classList.add('scale-100', 'opacity-100')
+            entry.target.classList.remove("scale-0", "opacity-0");
+            entry.target.classList.add("scale-100", "opacity-100");
           } else {
-            entry.target.classList.remove('scale-100', 'opacity-100')
-            entry.target.classList.add('scale-0', 'opacity-0')
+            entry.target.classList.remove("scale-100", "opacity-100");
+            entry.target.classList.add("scale-0", "opacity-0");
           }
-        })
+        });
       },
-      { ...observerOptions, rootMargin: '10px' }
-    )
-    observerForeground.observe($heroForeground)
-  })
+      { ...observerOptions, rootMargin: "0px" }
+    );
+    observerForeground.observe($heroForeground);
+  });
 </script>
 
 <style>

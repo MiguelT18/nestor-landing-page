@@ -1,7 +1,7 @@
 ---
-import { Icon } from 'astro-icon/components'
-import PrimaryButton from 'src/components/PrimaryButton.astro'
-import Skeleton from 'src/components/Skeleton.astro'
+import { Icon } from "astro-icon/components";
+import Form from "src/components/Form.tsx";
+import Skeleton from "src/components/ui/Skeleton.astro";
 ---
 
 <section
@@ -11,6 +11,7 @@ import Skeleton from 'src/components/Skeleton.astro'
       rgba(22, 1, 1, 1) 0%,
       rgba(6, 0, 0, 1) 100%
     );"
+  class="w-full max-w-[90%] lg:max-w-[60%] mx-auto"
 >
   <div id="vsl-header" class="px-4">
     <h1
@@ -20,7 +21,7 @@ import Skeleton from 'src/components/Skeleton.astro'
     </h1>
 
     <p
-      class="text-white leading-relaxed text-sm text-center text-balance w-full max-w-[90%] lg:max-w-[60%] mx-auto mb-5 mt-2"
+      class="block text-white leading-relaxed text-sm text-center text-pretty w-full mb-5 mt-2"
     >
       Mira el video completo para conocer con detalle cómo con mi plan he
       ayudado a cientos de personas a salir del estancamiento y conseguir sus
@@ -29,7 +30,7 @@ import Skeleton from 'src/components/Skeleton.astro'
   </div>
 
   <div
-    class="video-container scale-50 opacity-0 h-auto w-full max-w-[90%] lg:max-w-[60%] mx-auto aspect-video border-2 rounded-xl relative mt-8 cursor-pointer transition-transform duration-500 ease-out border-primary-color"
+    class="observe-element scale-50 opacity-0 h-auto aspect-video border-2 rounded-xl relative mt-8 cursor-pointer transition-transform duration-500 ease-out border-primary-color"
   >
     <Skeleton />
     <Icon
@@ -38,47 +39,99 @@ import Skeleton from 'src/components/Skeleton.astro'
     />
   </div>
 
-  <div class="w-full max-w-[90%] lg:max-w-[60%] mx-auto mt-12 md:mt-16 pb-12">
-    <PrimaryButton>¡Quiero cambiar!</PrimaryButton>
+  <div
+    class="observe-element scale-50 opacity-0 transition-transform duration-500 ease-out size-full min-h-[300px] p-4 mt-12 bg-primary-color/10 rounded-lg border-2 border-primary-color flex flex-col justify-center"
+    id="form-container"
+  >
+    <div id="form-wrapper" class="hidden">
+      <Form client:visible />
+    </div>
+    <div class="size-full flex flex-col items-center" id="init-form">
+      <p
+        class="text-gray-400 leading-relaxed text-sm text-center text-balance w-full"
+      >
+        Responde las preguntas para conocerte mejor y programa una reunión
+        conmigo para ver cómo podemos ayudarte.
+      </p>
+      <button
+        id="init-form-button"
+        type="button"
+        class="w-fit bg-primary-color/50 hover:bg-primary-color/30 transition-all text-sm leading-tight tracking-wide px-4 py-2 mt-5 mx-auto rounded-md flex items-center justify-between gap-4"
+      >
+        <Icon name="edit-icon" class="size-[20px]" />
+        <span class="block size-fit">Iniciar formulario</span>
+      </button>
+    </div>
   </div>
 </section>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // to-do: observer $VSLHeader
-    const $VSLHeader = document.getElementById('vsl-header') as HTMLElement
-    const $videoContainer = document.querySelector(
-      '.video-container'
-    ) as HTMLElement
-    if (!$videoContainer || !$VSLHeader) return
+  import { animate } from "motion";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const $initForm = document.getElementById("init-form") as HTMLElement;
+    const $initFormBtn = document.getElementById(
+      "init-form-button"
+    ) as HTMLElement;
+    const $formWrapper = document.getElementById("form-wrapper") as HTMLElement;
+    const $formContainer = document.getElementById(
+      "form-container"
+    ) as HTMLElement;
+
+    $initFormBtn.addEventListener("click", () => {
+      $formWrapper.classList.remove("hidden");
+      $initForm.classList.add("hidden");
+      $formContainer.classList.replace("justify-center", "justify-start");
+    });
+
+    const observeElements = document.querySelectorAll(
+      ".observe-element"
+    ) as NodeListOf<HTMLElement>;
 
     const observerOptions = {
       root: null,
       threshold: 0.1,
-      rootMargin: '0px'
-    }
+      rootMargin: "0px",
+    };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const { isIntersecting, target } = entry
-
-          if (target === $videoContainer) {
-            if (isIntersecting) {
-              target.classList.replace('scale-50', 'scale-100')
-              target.classList.replace('opacity-0', 'opacity-100')
-            } else {
-              target.classList.replace('scale-100', 'scale-50')
-              target.classList.replace('opacity-100', 'opacity-0')
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Al entrar en pantalla
+          animate(
+            entry.target,
+            {
+              scale: 1,
+              opacity: 1,
+            },
+            {
+              duration: 0.1,
+              ease: "easeOut",
             }
-          }
-        })
-      },
-      { ...observerOptions }
-    )
+          );
+        } else {
+          // Al salir de la pantalla
+          animate(
+            entry.target,
+            {
+              scale: 0.5,
+              opacity: 0,
+            },
+            {
+              duration: 0.1,
+              ease: "easeIn",
+            }
+          );
+        }
+      });
+    }, observerOptions);
 
-    observer.observe($videoContainer)
-  })
+    // Antes de observarlos, seteamos su estilo inicial
+    observeElements.forEach((element) => {
+      element.style.opacity = "0.8";
+      observer.observe(element);
+    });
+  });
 </script>
 
 <style>

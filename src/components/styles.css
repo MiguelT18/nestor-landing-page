@@ -1,0 +1,56 @@
+.tel-dropdown-custom {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-radius: 0.375rem !important;
+}
+
+.tel-button-custom {
+  background-color: #3c0d0d !important;
+  border: none !important;
+}
+
+.tel-input-custom {
+  background-color: #3c0d0d !important;
+  border: none !important;
+  font-size: clamp(16px, 2dvw, 18px) !important;
+}
+
+.tel-input-custom:focus {
+  background-color: #4f1010 !important;
+}
+
+.tel-container-custom {
+  display: block;
+}
+
+.tel-search-custom {
+  background-color: #000000 !important;
+}
+
+.tel-search-custom-box {
+  background-color: #3c0d0d !important;
+  border-radius: 0.375rem !important;
+  width: 90% !important;
+  padding: 0.5rem !important;
+  border: none !important;
+}
+
+.country.highlight {
+  background-color: #3c0d0d !important;
+}
+
+.country:hover {
+  background-color: #3c0d0d !important;
+}
+
+.flag-dropdown.open .selected-flag {
+  background-color: #4f1010 !important;
+}
+
+.selected-flag {
+  border-radius: 0.375rem !important;
+}
+
+.selected-flag:hover {
+  background-color: #4f1010 !important;
+}
