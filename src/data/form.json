@@ -1,0 +1,132 @@
+[
+  {
+    "step": 1,
+    "question": "¿Cuál es el rango de edad?",
+    "label": "Selecciona el rango de edad",
+    "type": "single-choice",
+    "options": [
+      "18 a 34 años",
+      "35 a 45 años",
+      "Más de 45 años"
+    ]
+  },
+  {
+    "step": 2,
+    "question": "¿Cuál de las siguientes afirmaciones describe mejor tu situación?",
+    "label": "Selecciona tantas como quieras",
+    "type": "multiple-choice",
+    "options": [
+      "Tengo un objetivo claro pero no sé cómo llegar allí. Hay demasiada información contradictoria y ya no quiero perder mi tiempo y energía experimentando.",
+      "Ya he hecho dietas/retos antes, pero no he logrado los resultados que he querido. Me falta disciplina.",
+      "Probé varias dietas y programas antes y perdí peso con éxito, pero lo  recuperé todo. Necesito solucionar este problema de una vez por todas.",
+      "He hecho algunos progresos por mi cuenta, pero me estanqué y no sé cómo seguir progresando.",
+      "He aumentado de peso con el pasar de los años y simplemente no puedo bajar",
+      "Me siento extremadamente incómodo con mi cuerpo y eso está impactando todas las áreas de mi vida, incluida mi salud, mi confianza, mis relaciones y mi carrera."
+    ]
+  },
+  {
+    "step": 3,
+    "question": "¿Cómo es tu físico actual?",
+    "label": "Selecciona tu físico actual",
+    "type": "single-choice",
+    "options": [
+      "Tengo sobrepeso: Deseo mejorar mi salud. Mi objetivo principal es bajar más de 15 kilos.",
+      "Estoy fuera de Forma: Necesito bajar de 7 a 15 killos y lucir más atlético y definido.",
+      "Delgado con grasa rebelde: Deseo eliminar mi grasa absominal y construir mejor mis músculos."
+    ]
+  },
+  {
+    "step": 4,
+    "question": "¿Qué tan importante es para ti en este momento alcanzar tus objetivos de peso?",
+    "label": "Selecciona tu nivel de importancia",
+    "type": "single-choice",
+    "options": [
+      "(3 de 10) No tengo urgencia, estoy bien como estoy ahora, solo estoy buscando información.",
+      "(5 de 10) Definitivamente estoy listo para comenzar a trabajar hacia mi objetivo. Tengo una motivación fuerte y es importante para mí.",
+      "(7 de 10) Tengo que comenzar mi transformación lo antes posible. Estar fuera de forma está afectando mi día a día. Quiero aumentar mi autoestima y mejorar la salud, estoy cansado de no vivir la vida al máximo.",
+      "(10 de 10) Estoy dispuesto a hacer todo lo necesario para solucionar mi situación actual. Simplemente no puedo dejar pasar un día más sin hacer un cambio. Me está afectando mental y físicamente."
+    ]
+  },
+  {
+    "step": 5,
+    "question": "¿Estás listo para comprometerte con un programa de acondicionamiento físico de 90 días ahora mismo?",
+    "label": "Selecciona si estás listo",
+    "type": "single-choice",
+    "options": [
+      "Sí, sé que no se puede hacer ningún cambio significativo en un par de semanas. Crear nuevos hábitos sostenibles lleva tiempo.",
+      "No, no estoy en condiciones de comprometerme con un programa de 90 días en este momento."
+    ]
+  },
+  {
+    "step": 6,
+    "question": "¿Qué tipo de asesoría buscas en mi?",
+    "label": "Selecciona el tipo de asesoría",
+    "type": "single-choice",
+    "options": [
+      "Entrenamiento + Alimentación y Seguimiento Personalizado.",
+      "Solo Alimentación y Seguimiento Personalizado."
+    ]
+  },
+  {
+    "step": 7,
+    "question": "¿Qué tan pronto deseas comenzar si somos aptos para trabajar juntos?",
+    "label": "Selecciona cuánto tiempo quieres comenzar",
+    "type": "single-choice",
+    "options": [
+      "Sólo estoy aquí para recopilar información.",
+      "Dentro de unas pocas semanas o un mes.",
+      "Inmediatamente."
+    ]
+  },
+  {
+    "step": 8,
+    "question": "¿Está usted en condiciones de tomar decisiones financieras independientes?",
+    "label": "Selecciona si estás en condiciones",
+    "type": "single-choice",
+    "options": [
+      "Si",
+      "No"
+    ]
+  },
+  {
+    "step": 9,
+    "question": "¿Cuál es tu ocupación actual?",
+    "label": "Escribe tu ocupación actual",
+    "type": "text"
+  },
+  {
+    "step": 10,
+    "question": "¿Cuál es tu nombre?",
+    "label": "Escribe tu nombre",
+    "type": "text"
+  },
+  {
+    "step": 11,
+    "question": "¿Cuál es tu número de teléfono?",
+    "label": "Escribe tu número de teléfono",
+    "type": "tel"
+  },
+  {
+    "step": 12,
+    "question": "¿Cuál es tu correo electrónico?",
+    "label": "Escribe tu correo electrónico",
+    "type": "email"
+  },
+  {
+    "step": 13,
+    "question": "¿Cuál es el presupuesto aproximado que tienes en mente para lograr tus objetivos de salud y fitness trabajando conmigo?",
+    "label": "Selecciona el rango de tu presupuesto",
+    "type": "single-choice",
+    "options": [
+      "Menos de $100 USD",
+      "Entre $300 y $500 USD",
+      "Entre $600 y $1000 USD"
+    ]
+  },
+  {
+    "step": 14,
+    "question": "¿Hay algo más que deba saber sobre ti?",
+    "label": "Escribe algo más",
+    "type": "textarea"
+  }
+]

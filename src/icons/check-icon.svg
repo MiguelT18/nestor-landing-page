@@ -1,10 +1,1 @@
-<svg width="20" height="15" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_121_185)">
-<path d="M19.5815 0.910092C20.1395 1.45688 20.1395 2.34487 19.5815 2.89166L8.15422 14.0899C7.59625 14.6367 6.6901 14.6367 6.13213 14.0899L0.41848 8.49078C-0.139493 7.94399 -0.139493 7.05601 0.41848 6.50922C0.976454 5.96243 1.8826 5.96243 2.44058 6.50922L7.14541 11.1154L17.5639 0.910092C18.1219 0.363303 19.028 0.363303 19.586 0.910092H19.5815Z" fill="#A70A0A"/>
-</g>
-<defs>
-<clipPath id="clip0_121_185">
-<rect width="20" height="14" fill="white" transform="translate(0 0.5)"/>
-</clipPath>
-</defs>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" viewBox="0 0 24 24"><mask id="lineMdCheckAll0"><g fill="none" stroke="#fff" stroke-dasharray="24" stroke-dashoffset="24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.4s" values="24;0"/></path><path stroke="#000" stroke-width="6" d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.4s" dur="0.4s" values="24;0"/></path><path d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.4s" dur="0.4s" values="24;0"/></path></g></mask><rect width="24" height="24" fill="currentColor" mask="url(#lineMdCheckAll0)"/></svg>

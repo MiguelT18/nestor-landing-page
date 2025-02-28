@@ -1,3 +1,15 @@
+.progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--progress);
+  background-color: #d70000;
+  border-radius: inherit;
+  transition: width 0.3s ease-in-out;
+}
+
 .tel-dropdown-custom {
   background-color: #000 !important;
   color: #fff !important;

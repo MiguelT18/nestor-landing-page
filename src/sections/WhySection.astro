@@ -1,74 +1,100 @@
 ---
-import { Image } from 'astro:assets'
-import PrimaryButton from 'src/components/ui/PrimaryButton.astro'
-import WhySectionImage from '@images/why-section-image.jpg'
+import { Image } from "astro:assets";
+import PrimaryButton from "src/components/ui/PrimaryButton.astro";
+import WhySectionImage from "@images/why-section-image.jpg";
+import ModalForm from "src/components/ModalForm.astro";
 ---
 
-<section>
-  <h1
-    class="[&>span]:text-primary-color text-white text-lg-title text-center text-balance font-alfa-slab-one leading-relaxed uppercase pt-8"
-  >
-    ¿Por qué elegir mi <span>plan de entrenamiento?</span>
-  </h1>
-  <p
-    class="text-balance text-center text-sm leading-relaxed mt-2 mb-10 xl:max-w-[50%] mx-auto"
-  >
-    Estuve en esa "Zona de Confort Invisible", creyendo que solo entrenando más
-    todo cambiaría. Con el tiempo aprendí que se puede salir del estancamiento.
-    Ahora, con mi experiencia, te ofrezco un enfoque personalizado para
-    transformar tu cuerpo y lograr tus metas de manera sostenible y con
-    confianza.
-  </p>
+<ModalForm modalId="why-modal-form" />
+
+<section
+  class="grid grid-cols-1 lg:grid-cols-2 items-center max-lg:justify-items-center gap-5 lg:gap-10 container mx-auto px-4 mb-36"
+>
+  <div class="space-y-5 w-[90%] text-center lg:text-start">
+    <h1
+      class="[&>span]:text-primary-color text-white text-lg-title text-balance font-alfa-slab-one leading-relaxed uppercase"
+    >
+      ¿Por qué elegir mi <span>plan de entrenamiento?</span>
+    </h1>
+    <p class="text-balance text-sm leading-relaxed">
+      Estuve en esa "Zona de Confort Invisible", creyendo que solo entrenando
+      más todo cambiaría. Con el tiempo aprendí que se puede salir del
+      estancamiento. Ahora, con mi experiencia, te ofrezco un enfoque
+      personalizado para transformar tu cuerpo y lograr tus metas de manera
+      sostenible y con confianza.
+    </p>
+    <PrimaryButton id="open-modal-btn">Quiero cambiar ya!</PrimaryButton>
+  </div>
 
   <div
     id="why-image-container"
-    class="scale-50 opacity-0 h-auto w-full max-w-[90%] lg:max-w-[60%] mx-auto aspect-video border-2 rounded-xl relative mt-8 transition-transform duration-500 ease-out border-primary-color"
+    class="h-auto w-full aspect-video border-2 rounded-xl mt-8 transition-transform duration-500 ease-out border-primary-color"
     style="box-shadow: 0px 0px 25px 0px rgba(215, 0, 0, 0.5);"
   >
     <Image
       src={WhySectionImage}
       alt="Una imagen de Néstor mostrando su cambio físico"
-      class="size-full object-cover absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 right-1/2 z-10"
+      class="size-full object-cover"
       style="border-radius: inherit;"
     />
-  </div>
-
-  <div class="w-full max-w-[90%] lg:max-w-[60%] mx-auto py-12">
-    <PrimaryButton>Quiero cambiar ya!</PrimaryButton>
   </div>
 </section>
 
 <script>
-  const $whyImageContainer = document.querySelector(
-    '#why-image-container'
-  ) as HTMLElement
+  import { animate } from "motion";
 
-  if ($whyImageContainer) {
+  const whyImageContainer = document.querySelector(
+    "#why-image-container"
+  ) as HTMLElement;
+  const openModalBtn = document.getElementById(
+    "open-modal-btn"
+  ) as HTMLButtonElement;
+  const modalForm = document.getElementById(
+    "why-modal-form"
+  ) as HTMLDialogElement;
+
+  openModalBtn?.addEventListener("click", () => {
+    document.body.style.overflow = "hidden";
+    modalForm.showModal();
+  });
+
+  document.addEventListener("click", (event: MouseEvent) => {
+    if (event.target === modalForm) {
+      document.body.style.overflow = "auto";
+      modalForm.close();
+    }
+  });
+
+  if (whyImageContainer) {
     const observerOptions = {
       root: null,
-      threshold: 0.1,
-      rootMargin: '0px'
-    }
+      threshold: 0.3,
+      rootMargin: "10px",
+    };
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const { isIntersecting, target } = entry
+          const { isIntersecting } = entry;
 
-          if (target === $whyImageContainer) {
-            if (isIntersecting) {
-              target.classList.replace('scale-50', 'scale-100')
-              target.classList.replace('opacity-0', 'opacity-100')
-            } else {
-              target.classList.replace('scale-100', 'scale-50')
-              target.classList.replace('opacity-100', 'opacity-0')
-            }
+          if (isIntersecting) {
+            animate(
+              entry.target,
+              { scale: 1 },
+              { duration: 0.3, ease: "easeIn" }
+            );
+          } else {
+            animate(
+              entry.target,
+              { scale: 0.6 },
+              { duration: 0.3, ease: "easeOut" }
+            );
           }
-        })
+        });
       },
       { ...observerOptions }
-    )
+    );
 
-    observer.observe($whyImageContainer)
+    observer.observe(whyImageContainer);
   }
 </script>

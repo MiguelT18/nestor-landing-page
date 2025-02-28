@@ -7,8 +7,8 @@ export default {
         "primary-color": "#d70000",
       },
       width: {
-        "nav-logo": ["clamp(5rem, 12dvw, 6.5rem)"],
-        "hero-foreground": ["clamp(24rem, 50dvw, 30rem)"],
+        "nav-logo": ["clamp(6rem, 12dvw, 8rem)"],
+        "hero-foreground": ["clamp(24rem, 35dvw, 35rem)"],
       },
       fontFamily: {
         "alfa-slab-one": ["Alfa Slab One", "sans-serif"],
@@ -17,9 +17,11 @@ export default {
       fontSize: {
         xs: ["clamp(12px, 1.5dvw, 14px)"],
         sm: ["clamp(16px, 2dvw, 18px)"],
+        md: ["clamp(18px, 2dvw, 20px)"],
+        lg: ["clamp(20px, 4dvw, 24px)"],
         "lg-title": ["clamp(22.4px, 3dvw, 32px)"],
       },
     },
   },
   plugins: [],
-};
+}

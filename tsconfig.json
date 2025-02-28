@@ -23,6 +23,12 @@
       ],
       "@images/*": [
         "public/assets/images/*"
+      ],
+      "@icons/*": [
+        "src/icons/*"
+      ],
+      "@data/*": [
+        "src/data/*"
       ]
     },
     "jsx": "react-jsx",

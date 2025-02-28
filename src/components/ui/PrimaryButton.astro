@@ -1,15 +1,23 @@
+---
+const { ...props } = Astro.props;
+---
+
 <button
-  class="primary-button bg-[#4b0a0a] hover:bg-[#380707] rounded-md border-solid border-[#d70000] border-2 w-full py-3 font-sans text-white text-center text-balance text-sm tracking-wider font-bold uppercase transition-all"
+  {...props}
+  type="button"
+  class="primary-button rounded-md border-solid border-[#d70000] border-2 w-full py-3 font-sans text-white text-center text-balance text-sm tracking-wider font-bold uppercase transition-all backdrop-blur-sm"
 >
   <slot />
 </button>
 
 <style>
   .primary-button {
-    box-shadow: 0px 0px 15px 0px rgba(215, 0, 0, 0.5);
+    background-color: rgba(97, 17, 17, 0.688);
+    box-shadow: 0px 0px 20px 0px rgba(215, 0, 0, 0.5);
   }
 
   .primary-button:hover {
-    box-shadow: 0px 0px 20px 0px rgba(215, 0, 0, 0.5);
+    background-color: rgba(156, 8, 8, 0.5);
+    box-shadow: 0px 0px 30px 0px rgba(215, 0, 0, 0.6);
   }
 </style>

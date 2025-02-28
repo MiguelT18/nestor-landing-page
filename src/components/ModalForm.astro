@@ -1,0 +1,17 @@
+---
+import Form from "./Form.tsx";
+
+const { modalId } = Astro.props;
+---
+
+<dialog
+  id={modalId}
+  class="backdrop:bg-black/50 backdrop:backdrop-blur-sm w-full md:w-[70%] rounded-xl p-5 bg-black outline-none overflow-hidden border-2 border-primary-color/50"
+>
+  <h2 class="text-lg uppercase font-bold font-alfa-slab-one text-center mb-5">
+    Primero tengo que saber algunas <span class="text-primary-color"
+      >cosas sobre ti...</span
+    >
+  </h2>
+  <Form client:load />
+</dialog>

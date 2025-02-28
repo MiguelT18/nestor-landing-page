@@ -1,30 +1,30 @@
 ---
-import { Image } from 'astro:assets'
+import { Image } from "astro:assets";
 
 const testimonials = [
-  '¡Empecé con Néstor y estoy más fuerte que nunca! 💪 Siempre motivándome y ajustando el plan a mis necesidades. ¡Totalmente recomendable! 🤩',
-  'No creía que un plan de entrenamiento pudiera cambiar tanto mi cuerpo y mente. 😤🔥 ¡Los resultados son increíbles! 💥💯',
-  'Pensé que no podía ser constante, pero Néstor lo hizo posible. 💪 ¡Mis amigos ya no me reconocen! 😂🔥',
-  'Néstor es el entrenador perfecto. 💯 Empecé sin saber nada y ahora me siento como un pro. 🤓 ¡Los resultados siguen llegando! 💥',
-  'Me cambió la vida. 😆 Los ejercicios más duros se sienten fáciles con él. ¡Nunca me sentí tan bien! 10/10 ⭐️💪',
-  'Le debo mucho a Néstor 🙏 Me guió de forma clara y siempre está pendiente. Estoy más motivado que nunca. 🔥',
-  'Estaba estancado, pero Néstor me dio el empujón que necesitaba. 💥 ¡Mis progresos son brutales! 💪',
-  'Mi vida cambió con el plan de Néstor. 😎 ¡Nunca pierdo la motivación! Mi progreso es brutal. 💪🚀'
-]
+  "¡Empecé con Néstor y estoy más fuerte que nunca! 💪 Siempre motivándome y ajustando el plan a mis necesidades. ¡Totalmente recomendable! 🤩",
+  "No creía que un plan de entrenamiento pudiera cambiar tanto mi cuerpo y mente. 😤🔥 ¡Los resultados son increíbles! 💥💯",
+  "Pensé que no podía ser constante, pero Néstor lo hizo posible. 💪 ¡Mis amigos ya no me reconocen! 😂🔥",
+  "Néstor es el entrenador perfecto. 💯 Empecé sin saber nada y ahora me siento como un pro. 🤓 ¡Los resultados siguen llegando! 💥",
+  "Me cambió la vida. 😆 Los ejercicios más duros se sienten fáciles con él. ¡Nunca me sentí tan bien! 10/10 ⭐️💪",
+  "Le debo mucho a Néstor 🙏 Me guió de forma clara y siempre está pendiente. Estoy más motivado que nunca. 🔥",
+  "Estaba estancado, pero Néstor me dio el empujón que necesitaba. 💥 ¡Mis progresos son brutales! 💪",
+  "Mi vida cambió con el plan de Néstor. 😎 ¡Nunca pierdo la motivación! Mi progreso es brutal. 💪🚀",
+];
 
-const response = await fetch('https://randomuser.me/api/?results=8')
-const data = await response.json()
+const response = await fetch("https://randomuser.me/api/?results=8");
+const data = await response.json();
 
 const users = data.results.map((user: any, index: number) => ({
   name: `${user.name.first} ${user.name.last}`,
   username: user.login.username,
   image: user.picture.large,
-  testimonial: testimonials[index]
-}))
+  testimonial: testimonials[index],
+}));
 ---
 
 <section
-  class="overflow-hidden pb-10"
+  class="overflow-hidden mb-36 container mx-auto px-4"
   style="
 background: radial-gradient(
   closest-side,

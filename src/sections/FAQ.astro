@@ -1,33 +1,33 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { Icon } from "astro-icon/components";
 
 const FAQItems = [
   {
-    question: '¿Es Néstor Árce un Personal Trainer?',
+    question: "¿Es Néstor Árce un Personal Trainer?",
     answer:
-      'Sí, Néstor Árce es un Personal Trainer. Él es un entrenador de ejercicios que se enfoca en mejorar la fuerza, la resistencia y otros aspectos de la estructura muscular. Él es capaz de ayudar a las personas a alcanzar sus metas de manera sostenible y con confianza.'
+      "Sí, Néstor Árce es un Personal Trainer. Él es un entrenador de ejercicios que se enfoca en mejorar la fuerza, la resistencia y otros aspectos de la estructura muscular. Él es capaz de ayudar a las personas a alcanzar sus metas de manera sostenible y con confianza.",
   },
   {
-    question: '¿Cuánto tiempo a la semana le tengo que dedicar?',
+    question: "¿Cuánto tiempo a la semana le tengo que dedicar?",
     answer:
-      'A lo largo de la semana, Néstor Árce dedica una cantidad de tiempo que depende de la cantidad de ejercicios que se realizan. Sin embargo, es importante tener en cuenta que cada persona es diferente y que la cantidad de tiempo que debes dedicar depende de tus metas y objetivos.'
+      "A lo largo de la semana, Néstor Árce dedica una cantidad de tiempo que depende de la cantidad de ejercicios que se realizan. Sin embargo, es importante tener en cuenta que cada persona es diferente y que la cantidad de tiempo que debes dedicar depende de tus metas y objetivos.",
   },
   {
-    question: '¿Cuánto tiempo tomará ver resultados visibles?',
+    question: "¿Cuánto tiempo tomará ver resultados visibles?",
     answer:
-      'Los resultados visibles pueden variar dependiendo de la cantidad de ejercicios que se realizan y la intensidad de los mismos. Sin embargo, en general, los resultados visibles se pueden alcanzar en un plazo de 12 a 18 meses.'
+      "Los resultados visibles pueden variar dependiendo de la cantidad de ejercicios que se realizan y la intensidad de los mismos. Sin embargo, en general, los resultados visibles se pueden alcanzar en un plazo de 12 a 18 meses.",
   },
   {
-    question: '¿Cuánto tiempo dura el programa?',
+    question: "¿Cuánto tiempo dura el programa?",
     answer:
-      'El programa de Néstor Árce dura aproximadamente 12 a 18 meses. Sin embargo, es importante tener en cuenta que cada persona es diferente y que la cantidad de tiempo que debes dedicar depende de tus metas y objetivos.'
+      "El programa de Néstor Árce dura aproximadamente 12 a 18 meses. Sin embargo, es importante tener en cuenta que cada persona es diferente y que la cantidad de tiempo que debes dedicar depende de tus metas y objetivos.",
   },
   {
-    question: '¿Tengo que ser de Bolivia para participar?',
+    question: "¿Tengo que ser de Bolivia para participar?",
     answer:
-      'No, Néstor Árce no requiere de haber residido en Bolivia para participar en su programa. Sin embargo, es importante tener en cuenta que cada persona es diferente y que la cantidad de tiempo que debes dedicar depende de tus metas y objetivos.'
-  }
-]
+      "No, Néstor Árce no requiere de haber residido en Bolivia para participar en su programa. Sin embargo, es importante tener en cuenta que cada persona es diferente y que la cantidad de tiempo que debes dedicar depende de tus metas y objetivos.",
+  },
+];
 ---
 
 <section
@@ -52,7 +52,7 @@ background: radial-gradient(
       FAQItems.map((item, index) => (
         <div
           data-faq={`faq-item-${index}`}
-          class="faq-container flex flex-col gap-2 p-4 border-2 border-primary-color rounded-xl cursor-pointer active:scale-90 transition-all duration-300 ease-out lg:hover:border-primary-color/50 group"
+          class="faq-container flex flex-col gap-2 p-4 border-2 border-primary-color/50 rounded-xl cursor-pointer active:scale-90 transition-all duration-300 lg:hover:border-primary-color/25 group"
         >
           <div class="faq-question flex justify-between items-center">
             <h2 class="w-fit text-balance text-sm font-bold uppercase lg:group-hover:text-primary-color/50">
@@ -66,7 +66,7 @@ background: radial-gradient(
             />
           </div>
 
-          <p class="faq-answer text-balance text-sm text-white/80 mt-2 hidden -translate-y-full">
+          <p class="faq-answer text-balance text-sm text-white/80 mt-2 hidden">
             {item.answer}
           </p>
         </div>
@@ -76,64 +76,85 @@ background: radial-gradient(
 </section>
 
 <script>
-  const $faqItems = document.querySelectorAll(
-    '[data-faq]'
-  ) as NodeListOf<HTMLElement>
+  import { animate } from "motion";
 
-  // crear función para abrir FAQ
-  function openFAQ(faqAnswer: HTMLElement, faqIcon: HTMLElement) {
-    faqAnswer.classList.remove('hidden', '-translate-y-full')
-    faqIcon.classList.add('rotate-180')
+  const faqItems = document.querySelectorAll(
+    "[data-faq]"
+  ) as NodeListOf<HTMLElement>;
+
+  function openFAQ(faqAnswer: any, faqIcon: any) {
+    faqAnswer.classList.remove("hidden");
+
+    // Animar apertura
+    const openAnimation = animate(
+      faqAnswer,
+      { opacity: [0, 1], height: ["0px", `${faqAnswer.scrollHeight}px`] },
+      { duration: 0.2, ease: "linear" }
+    );
+
+    // Rotar icono
+    animate(faqIcon, { rotate: [0, 180] }, { duration: 0.2, ease: "linear" });
+
+    return openAnimation;
   }
 
-  function closeFaq(faqAnswer: HTMLElement, faqIcon: HTMLElement) {
-    faqAnswer.classList.add('hidden', '-translate-y-full')
-    faqIcon.classList.remove('rotate-180')
+  function closeFAQ(faqAnswer: HTMLElement, faqIcon: HTMLElement) {
+    const closeAnimation = animate(
+      faqAnswer,
+      { opacity: [1, 0], height: [`${faqAnswer.scrollHeight}px`, "0px"] },
+      { duration: 0.2, ease: "linear" }
+    );
+
+    // Rotar icono de nuevo
+    animate(faqIcon, { rotate: [180, 0] }, { duration: 0.2, ease: "linear" });
+
+    closeAnimation.then(() => {
+      faqAnswer.classList.add("hidden");
+    });
   }
 
-  $faqItems.forEach((item) => {
-    const faqAnswer = item.querySelector(
-      '[data-faq] .faq-answer'
-    ) as HTMLElement
-    const faqIcon = item.querySelector('[data-faq] .faq-icon') as HTMLElement
+  faqItems.forEach((item) => {
+    const faqAnswer = item.querySelector(".faq-answer") as HTMLElement;
+    const faqIcon = item.querySelector(".faq-icon") as HTMLElement;
 
-    // abrir FAQ cuando se hace click en el item
-    item.addEventListener('click', (event) => {
-      event.stopPropagation()
-      const isActive = item.classList.contains('active')
+    item.addEventListener("click", (event) => {
+      event.stopPropagation();
 
-      document.querySelectorAll('.faq-container.active').forEach((openItem) => {
+      const isActive = item.classList.contains("active");
+
+      // Cerrar otros FAQ abiertos
+      document.querySelectorAll(".faq-container.active").forEach((openItem) => {
         if (openItem !== item) {
           const openAnswer = openItem.querySelector(
-            '.faq-answer'
-          ) as HTMLElement
-          const openIcon = openItem.querySelector('.faq-icon') as HTMLElement
-          closeFaq(openAnswer, openIcon)
-          openItem.classList.remove('active')
+            ".faq-answer"
+          ) as HTMLElement;
+          const openIcon = openItem.querySelector(".faq-icon") as HTMLElement;
+          closeFAQ(openAnswer, openIcon);
+          openItem.classList.remove("active");
         }
-      })
+      });
 
       if (isActive) {
-        closeFaq(faqAnswer, faqIcon)
-        item.classList.remove('active')
+        closeFAQ(faqAnswer, faqIcon);
+        item.classList.remove("active");
       } else {
-        openFAQ(faqAnswer, faqIcon)
-        item.classList.add('active')
+        openFAQ(faqAnswer, faqIcon);
+        item.classList.add("active");
       }
-    })
+    });
+  });
 
-    item.addEventListener('mouseenter', () => {
-      if (!item.classList.contains('active')) {
-        openFAQ(faqAnswer as HTMLElement, faqIcon)
-      }
-    })
-
-    item.addEventListener('mouseleave', () => {
-      if (!item.classList.contains('active')) {
-        closeFaq(faqAnswer as HTMLElement, faqIcon)
-      }
-    })
-  })
+  // ✅ Cerrar cualquier FAQ abierto al hacer click fuera
+  document.addEventListener("click", (event: any) => {
+    if (!event.target.closest(".faq-container")) {
+      document.querySelectorAll(".faq-container.active").forEach((openItem) => {
+        const openAnswer = openItem.querySelector(".faq-answer") as HTMLElement;
+        const openIcon = openItem.querySelector(".faq-icon") as HTMLElement;
+        closeFAQ(openAnswer, openIcon);
+        openItem.classList.remove("active");
+      });
+    }
+  });
 </script>
 
 <style>

@@ -1,66 +1,66 @@
 ---
 import { Icon } from "astro-icon/components";
-import Form from "src/components/Form.tsx";
+import Form from "src/components/Form";
+import LikeCounter from "src/components/ui/LikeCounter.tsx";
 import Skeleton from "src/components/ui/Skeleton.astro";
 ---
 
-<section
-  style="
-    background: radial-gradient(
-      closest-side,
-      rgba(22, 1, 1, 1) 0%,
-      rgba(6, 0, 0, 1) 100%
-    );"
-  class="w-full max-w-[90%] lg:max-w-[60%] mx-auto"
->
-  <div id="vsl-header" class="px-4">
-    <h1
-      class="[&>span]:text-primary-color text-white text-lg-title text-center text-balance font-alfa-slab-one leading-relaxed uppercase pt-8"
-    >
-      Te cuento cómo <span>puedes lograrlo...</span>
-    </h1>
-
-    <p
-      class="block text-white leading-relaxed text-sm text-center text-pretty w-full mb-5 mt-2"
-    >
-      Mira el video completo para conocer con detalle cómo con mi plan he
-      ayudado a cientos de personas a salir del estancamiento y conseguir sus
-      objetivos.
-    </p>
-  </div>
-
-  <div
-    class="observe-element scale-50 opacity-0 h-auto aspect-video border-2 rounded-xl relative mt-8 cursor-pointer transition-transform duration-500 ease-out border-primary-color"
+<section class="w-full container mx-auto px-4 mt-36">
+  <h1
+    class="[&>span]:text-primary-color text-white text-lg-title text-center text-pretty font-alfa-slab-one leading-relaxed uppercase mb-8"
   >
-    <Skeleton />
-    <Icon
-      name="play-icon"
-      class="size-[60px] text-primary-color/30 absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 right-1/2"
-    />
-  </div>
-
+    Te cuento cómo <span>puedes lograrlo...</span>
+  </h1>
   <div
-    class="observe-element scale-50 opacity-0 transition-transform duration-500 ease-out size-full min-h-[300px] p-4 mt-12 bg-primary-color/10 rounded-lg border-2 border-primary-color flex flex-col justify-center"
-    id="form-container"
+    class="bg-primary-color/10 border-primary-color border-2 rounded-xl grid lg:grid-cols-2 gap-4 lg:gap-8 p-5 md:p-8"
   >
-    <div id="form-wrapper" class="hidden">
-      <Form client:visible />
+    <div class="space-y-5">
+      <div
+        class="vsl-video observe-element h-auto aspect-video border-2 rounded-xl relative cursor-pointer border-primary-color/25 hover:border-primary-color/50"
+      >
+        <Skeleton />
+        <Icon
+          name="play-icon"
+          class="size-[60px] text-primary-color/30 absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 right-1/2"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <h2 class="block text-white font-bold text-lg uppercase">
+          Cómo mi plan ha ayudado a cientos de personas a conseguir sus
+          objetivos 💪
+        </h2>
+        <div class="w-fit flex items-center gap-4">
+          <LikeCounter client:load />
+          <button
+            type="button"
+            id="share-button"
+            class="font-semibold text-xs text-black bg-white tracking-wide leading-relaxed rounded-full transition-all hover:bg-white/80 px-4 py-2 block cursor-pointer disabled:bg-white/80 disabled:cursor-not-allowed focus:outline-none"
+          >
+            Compartir
+          </button>
+        </div>
+        <p
+          class="block text-gray-400 leading-relaxed text-sm text-pretty w-full"
+        >
+          <strong class="block mb-1 font-bold text-white">Descripción:</strong>
+          Conoce a detalle cómo con mi plan ha ayudado a cientos de personas a salir
+          del estancamiento y a conseguir sus objetivos. Si estás listo para transformar
+          tu físico entonces debes llenar el formulario honestamente y podrás programar
+          una reunión conmigo.
+        </p>
+      </div>
     </div>
-    <div class="size-full flex flex-col items-center" id="init-form">
+
+    <div class="flex flex-col gap-4">
       <p
-        class="text-gray-400 leading-relaxed text-sm text-center text-balance w-full"
+        class="important-note opacity-0 w-full bg-orange-400/30 p-4 rounded-xl border-orange-400/40 border-2 text-sm"
       >
-        Responde las preguntas para conocerte mejor y programa una reunión
-        conmigo para ver cómo podemos ayudarte.
+        <strong>Importante:{" "}</strong>
+        Solo cuando termines de llenar el formulario podrás agendar una reunión conmigo.
+        Te veo del otro lado. 😉
       </p>
-      <button
-        id="init-form-button"
-        type="button"
-        class="w-fit bg-primary-color/50 hover:bg-primary-color/30 transition-all text-sm leading-tight tracking-wide px-4 py-2 mt-5 mx-auto rounded-md flex items-center justify-between gap-4"
-      >
-        <Icon name="edit-icon" class="size-[20px]" />
-        <span class="block size-fit">Iniciar formulario</span>
-      </button>
+      <Form client:load />
     </div>
   </div>
 </section>
@@ -69,77 +69,129 @@ import Skeleton from "src/components/ui/Skeleton.astro";
   import { animate } from "motion";
 
   document.addEventListener("DOMContentLoaded", () => {
-    const $initForm = document.getElementById("init-form") as HTMLElement;
-    const $initFormBtn = document.getElementById(
-      "init-form-button"
-    ) as HTMLElement;
-    const $formWrapper = document.getElementById("form-wrapper") as HTMLElement;
-    const $formContainer = document.getElementById(
-      "form-container"
-    ) as HTMLElement;
+    const popAnimation = (element: Object, state: string, duration: number) => {
+      const SCALE_IN = 1;
+      const SCALE_OUT = 0.5;
+      const OPACITY_IN = 1;
+      const OPACITY_OUT = 0.2;
 
-    $initFormBtn.addEventListener("click", () => {
-      $formWrapper.classList.remove("hidden");
-      $initForm.classList.add("hidden");
-      $formContainer.classList.replace("justify-center", "justify-start");
-    });
+      if (!element) {
+        throw new Error("Element not found");
+      }
 
+      if (state === "pop-in") {
+        animate(
+          element,
+          {
+            scale: SCALE_IN,
+            opacity: OPACITY_IN,
+          },
+          {
+            duration: duration,
+            ease: "linear",
+          }
+        );
+      } else if (state === "pop-out") {
+        animate(
+          element,
+          {
+            scale: SCALE_OUT,
+            opacity: OPACITY_OUT,
+          },
+          {
+            duration: duration,
+            ease: "linear",
+          }
+        );
+      }
+    };
+
+    // Obtener elementos del DOM
     const observeElements = document.querySelectorAll(
       ".observe-element"
     ) as NodeListOf<HTMLElement>;
+    const noteElement = document.querySelector(
+      ".important-note"
+    ) as HTMLElement;
+    const shareButton = document.getElementById(
+      "share-button"
+    ) as HTMLButtonElement;
+
+    shareButton?.addEventListener("click", () => {
+      const text = "https://www.youtube.com";
+
+      navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          console.log("Enlace copiado al portapapeles");
+        })
+        .catch((err) => {
+          console.error("Error al copiar el enlace al portapapeles", err);
+        });
+    });
 
     const observerOptions = {
       root: null,
-      threshold: 0.1,
+      threshold: 0.2,
       rootMargin: "0px",
     };
 
+    const noteObserver = new IntersectionObserver(
+      (entries) => {
+        const DURATION = 0.6;
+
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Al entrar en pantalla
+            setTimeout(() => {
+              animate(
+                entry.target,
+                { opacity: 1 },
+                { duration: DURATION, ease: "easeIn" }
+              );
+            }, 500);
+          } else {
+            // Al salir de la pantalla
+            animate(
+              entry.target,
+              { opacity: 0 },
+              { duration: DURATION, ease: "easeOut" }
+            );
+          }
+        });
+      },
+      { root: null, threshold: 0.1, rootMargin: "0px" }
+    );
+    noteObserver.observe(noteElement);
+
     const observer = new IntersectionObserver((entries) => {
+      const duration: number = 0.3;
+
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           // Al entrar en pantalla
-          animate(
-            entry.target,
-            {
-              scale: 1,
-              opacity: 1,
-            },
-            {
-              duration: 0.1,
-              ease: "easeOut",
-            }
-          );
+          popAnimation(entry.target, "pop-in", duration);
         } else {
           // Al salir de la pantalla
-          animate(
-            entry.target,
-            {
-              scale: 0.5,
-              opacity: 0,
-            },
-            {
-              duration: 0.1,
-              ease: "easeIn",
-            }
-          );
+          popAnimation(entry.target, "pop-out", duration);
         }
       });
     }, observerOptions);
 
     // Antes de observarlos, seteamos su estilo inicial
     observeElements.forEach((element) => {
-      element.style.opacity = "0.8";
       observer.observe(element);
     });
   });
 </script>
 
 <style>
-  .video-container {
-    box-shadow: 0px 0px 20px 0px rgba(215, 0, 0, 0.5);
+  .vsl-video {
+    box-shadow: 0px 0px 10px 0px rgba(215, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
   }
 
-  .video-container:hover {
-    box-shadow: 0px 0px 30px 0px rgba(215, 0, 0, 0.5);
+  .vsl-video:hover {
+    box-shadow: 0px 0px 20px 0px rgba(215, 0, 0, 0.4);
   }
 </style>

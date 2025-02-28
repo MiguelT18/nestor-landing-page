@@ -1,149 +1,258 @@
 ---
-import { Icon } from 'astro-icon/components'
-import { Image } from 'astro:assets'
-import Image1 from 'public/assets/images/casos-de-exito/1_antes_despues.png'
-import Image2 from '/public/assets/images/casos-de-exito/2_antes_despues.png'
-import Image3 from '/public/assets/images/casos-de-exito/3_antes_despues.png'
-import Image4 from '/public/assets/images/casos-de-exito/4_antes_despues.png'
-import Image5 from '/public/assets/images/casos-de-exito/5_antes_despues.png'
-import Image6 from '/public/assets/images/casos-de-exito/6_antes_despues.png'
+import { Icon } from "astro-icon/components";
+import Image1 from "public/assets/images/casos-de-exito/1_antes_despues.png";
+import Image2 from "/public/assets/images/casos-de-exito/2_antes_despues.png";
+import Image3 from "/public/assets/images/casos-de-exito/3_antes_despues.png";
+import Image4 from "/public/assets/images/casos-de-exito/4_antes_despues.png";
+import Image5 from "/public/assets/images/casos-de-exito/5_antes_despues.png";
+import Image6 from "/public/assets/images/casos-de-exito/6_antes_despues.png";
+import { Image } from "astro:assets";
 
-const slides = [Image1, Image2, Image3, Image4, Image5, Image6]
+const images = [Image1, Image2, Image3, Image4, Image5, Image6];
 
 const cards = [
   {
-    icon: 'mancuerna-icon',
-    description: 'Asesoría contínua en la ejecución de ejercicios.'
+    icon: "mancuerna-icon",
+    title: "Entrenamiento Personalizado",
+    description:
+      "Asesoría contínua en la ejecución de ejercicios, asegurando una correcta técnica y progresión para maximizar resultados y evitar lesiones.",
   },
   {
-    icon: 'diet-icon',
-    description: 'Ajustes constantes de los planes.'
+    icon: "diet-icon",
+    title: "Nutrición Adaptada",
+    description:
+      "Ajustes constantes de los planes de alimentación según los objetivos, necesidades y evolución de cada persona, optimizando el rendimiento y bienestar.",
   },
   {
-    icon: 'performance-icon',
-    description: 'Planificación de suplementos y optimización del rendimiento.'
+    icon: "performance-icon",
+    title: "Optimización del Rendimiento",
+    description:
+      "Planificación estratégica de suplementos y técnicas avanzadas para mejorar el rendimiento físico y acelerar la recuperación muscular.",
   },
   {
-    icon: 'chat-icon',
-    description: 'Consultas rápidas por chat o WhatsApp.'
-  }
-]
+    icon: "chat-icon",
+    title: "Soporte Directo",
+    description:
+      "Consultas rápidas por chat o WhatsApp, ofreciendo asistencia y motivación en todo momento para garantizar la adherencia al plan.",
+  },
+];
 ---
 
-<section class="pb-10 overflow-hidden">
+<dialog
+  id="modal"
+  class="backdrop:bg-black/50 backdrop:backdrop-blur-sm bg-transparent outline-none overflow-hidden"
+>
+  <img
+    id="modal-image"
+    class="w-full max-w-[95%] md:max-w-[65%] mx-auto rounded-lg outline-none overflow-hidden"
+    alt="Imagen seleccionada"
+  />
+</dialog>
+
+<section class="overflow-hidden container mx-auto px-4 mt-40">
   <h1
-    class="[&>span]:text-primary-color text-white text-lg-title text-center text-balance font-alfa-slab-one leading-relaxed uppercase pt-8"
+    class="[&>span]:text-primary-color text-white text-lg-title text-center text-balance font-alfa-slab-one leading-relaxed uppercase mb-8"
   >
     Algunos <span>Casos de Éxito</span>
   </h1>
 
-  <div class="flex items-center">
-    <div class="swiper-button-prev mx-4"></div>
-
-    <div class="swiper mt-8">
-      <div class="swiper-wrapper">
-        {
-          slides.map((slide) => (
-            <article class="swiper-slide max-md:px-4">
-              <Image src={slide} alt="Slide" class="size-full object-cover" />
-            </article>
-          ))
-        }
-      </div>
-
-      <div class="autoplay-progress">
-        <svg viewBox="0 0 48 48">
-          <circle cx="24" cy="24" r="20"></circle>
-        </svg>
-        <span></span>
-      </div>
-      <div class="swiper-pagination"></div>
-    </div>
-
-    <div class="swiper-button-next mx-4"></div>
-  </div>
-
-  <article
-    class="w-full md:max-w-[80%] mx-auto flex flex-wrap justify-center gap-5 lg:gap-y-16 max-sm:gap-10 my-12"
+  <div
+    class="grid max-md:grid-cols-2 grid-cols-3 gap-4 p-5 rounded-xl bg-primary-color/10 border-primary-color border-2"
   >
     {
-      cards.map((card) => (
-        <div class="w-full max-w-[280px] max-md:max-w-[150px] mx-auto">
-          <Icon
-            name={card.icon}
-            class="size-[50px] mx-auto mb-4 text-primary-color/70"
+      images.map((image) => (
+        <div
+          id="image-container"
+          class="observe-element size-full overflow-hidden group rounded-lg cursor-pointer relative"
+        >
+          <div class="absolute opacity-0 group-hover:opacity-100 size-full bg-black/50 backdrop-blur-sm top-0 left-0 z-10 transition-all grid place-content-center">
+            <Icon name="eye-icon" class="size-12 md:size-16 text-white" />
+          </div>
+          <Image
+            src={image}
+            alt="Antes y después de un cliente"
+            class="size-full aspect-square object-cover group-hover:scale-110 transition-transform duration-300"
           />
-          <p class="text-white text-balance text-center text-sm leading-relaxed">
-            {card.description}
-          </p>
         </div>
       ))
     }
+  </div>
+
+  <article class="w-full container mx-auto my-36">
+    <h1
+      class="[&>span]:text-primary-color text-white text-lg-title text-center text-balance font-alfa-slab-one leading-relaxed uppercase mb-8"
+    >
+      Beneficios del plan
+    </h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      {
+        cards.map((card) => (
+          <div class="observe-element w-full p-4 rounded-xl bg-white/10">
+            <Icon
+              name={card.icon}
+              class="size-[60px] mb-4 text-primary-color/70"
+            />
+            <h3 class="text-md text-white leading-relaxed font-bold uppercase mb-2">
+              {card.title}
+            </h3>
+            <p class="text-white text-pretty text-sm leading-relaxed">
+              {card.description}
+            </p>
+          </div>
+        ))
+      }
+    </div>
   </article>
 </section>
 
 <script>
-  import Swiper from 'swiper/bundle'
-  import 'swiper/css/bundle'
+  import { animate } from "motion";
+  import panzoom from "panzoom";
 
-  const progressCircle = document.querySelector(
-    '.autoplay-progress svg'
-  ) as SVGAnimateElement
-  const progressContent = document.querySelector(
-    '.autoplay-progress span'
-  ) as HTMLElement
+  const observeElements = document.querySelectorAll(".observe-element");
+  const images = document.querySelectorAll("#image-container");
+  const modal = document.querySelector("#modal") as HTMLDialogElement;
+  const modalImage = document.querySelector("#modal-image") as HTMLImageElement;
 
-  new Swiper('.swiper', {
+  let panzoomInstance: any = null;
+
+  images.forEach((image) => {
+    image.addEventListener("click", () => {
+      const img = image.querySelector("img");
+      if (!img) return;
+
+      const src: any = img.getAttribute("src");
+      modalImage.setAttribute("src", src);
+      document.body.style.overflow = "hidden";
+
+      // ✅ Animación de escalado antes de mostrar el modal
+      animate(
+        modalImage,
+        { scale: [0.8, 1], opacity: [0, 1] },
+        { duration: 0.3, ease: "easeOut" }
+      );
+
+      modal.showModal();
+
+      // Inicializar Panzoom solo si no ha sido inicializado antes
+      if (!panzoomInstance) {
+        panzoomInstance = panzoom(modalImage, {
+          maxZoom: 3, // Nivel máximo de zoom
+          minZoom: 1, // Nivel mínimo de zoom
+          bounds: true, // Restringe el movimiento a los límites
+          boundsPadding: 0.1, // Espacio de padding en los límites
+        });
+
+        // Escuchar zoom y habilitar pan solo cuando se haya hecho zoom
+        panzoomInstance.on("zoom", () => {
+          const currentZoom = panzoomInstance.getTransform().scale;
+          if (currentZoom > 1) {
+            panzoomInstance.resume(); // Habilitar pan si hay zoom
+          } else {
+            panzoomInstance.pause(); // Deshabilitar pan si no hay zoom
+          }
+        });
+      }
+    });
+  });
+
+  // ✅ Cerrar el modal y resetear zoom al hacer clic fuera de la imagen
+  modal.addEventListener("click", (event: MouseEvent) => {
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+
+  // ✅ Evitar que los clics dentro de la imagen cierren el modal
+  modalImage.addEventListener("click", (event: MouseEvent) => {
+    event.stopPropagation(); // Evita que el evento llegue al modal
+  });
+
+  // Función para cerrar el modal correctamente y resetear zoom
+  function closeModal() {
+    // ✅ Animación de escalado antes de cerrar
+    animate(
+      modalImage,
+      { scale: [1, 0.8], opacity: [1, 0] },
+      { duration: 0.2, ease: "easeIn" }
+    ).then(() => {
+      modal.close();
+      document.body.style.overflow = "auto";
+
+      if (panzoomInstance) {
+        panzoomInstance.zoomAbs(0, 0, 1); // Resetear el zoom al cerrar
+        panzoomInstance.moveTo(0, 0); // Resetear la posición
+        panzoomInstance.pause(); // Deshabilitar pan
+      }
+    });
+  }
+
+  // ✅ Animación de aparición de elementos al hacer scroll
+  const observerOptions = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.1,
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animate(entry.target, { scale: 1 }, { duration: 0.3, ease: "easeIn" });
+      } else {
+        animate(
+          entry.target,
+          { scale: 0.6 },
+          { duration: 0.3, ease: "easeOut" }
+        );
+      }
+    });
+  }, observerOptions);
+
+  observeElements.forEach((element) => {
+    observer.observe(element);
+  });
+</script>
+
+<script>
+  import Swiper from "swiper/bundle";
+  import "swiper/css/bundle";
+
+  new Swiper(".swiper", {
     breakpoints: {
       // Pantallas pequeñas (por ejemplo, celulares)
       0: {
-        slidesPerView: 1
+        slidesPerView: 1,
       },
       // Pantallas medianas (por ejemplo, tablets)
       768: {
-        slidesPerView: 2
+        slidesPerView: 2,
       },
       // Pantallas grandes (por ejemplo, desktop)
       1024: {
-        slidesPerView: 3
-      }
+        slidesPerView: 3,
+      },
     },
     loop: true,
     centeredSlides: true,
     spaceBetween: 10,
     slidesPerView: 3,
     grabCursor: true,
-    effect: 'coverflow',
+    effect: "coverflow",
     autoplay: {
       delay: 3000,
-      disableOnInteraction: false
+      disableOnInteraction: false,
     },
     pagination: {
-      el: '.swiper-pagination',
-      clickable: true
+      el: ".swiper-pagination",
+      clickable: true,
     },
     navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
     },
-    on: {
-      autoplayTimeLeft(s, time, progress) {
-        const circle = progressCircle.querySelector('circle')
-        if (circle == null) return
-        const circumference = 2 * Math.PI * 20 // Radio del círculo es 20
-        circle.style.strokeDasharray = `${circumference}`
-        circle.style.strokeDashoffset = `${circumference * progress}`
-        progressContent.textContent = `${Math.ceil(time / 1000)}s`
-      }
-    }
-  })
+  });
 </script>
-
-<style>
-  .card-icon {
-    color: linear-gradient(to right, #a70a0a 0%, #410404 100%);
-  }
-</style>
 
 <style is:inline>
   /* .swiper-scrollbar-drag {

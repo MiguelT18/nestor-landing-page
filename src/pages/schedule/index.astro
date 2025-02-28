@@ -1,0 +1,46 @@
+---
+import Skeleton from "src/components/ui/Skeleton.astro";
+import Layout from "../../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+---
+
+<Layout>
+  <section class="container mx-auto px-4 min-h-[86dvh]">
+    <h1
+      class="custom-padding text-lg-title text-center font-alfa-slab-one uppercase mt-8"
+    >
+      Hagamos este 2025 el año de tu gran cambio
+    </h1>
+
+    <div
+      class="vsl-video observe-element h-auto aspect-video border-2 rounded-xl relative cursor-pointer border-primary-color/25 hover:border-primary-color/50 my-10 lg:w-[60%] md:mx-auto"
+    >
+      <Skeleton />
+      <Icon
+        name="play-icon"
+        class="size-[60px] text-primary-color/30 absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 right-1/2"
+      />
+    </div>
+    <p class="text-center text-sm">
+      Reserva gratis tu cupo desde ya y podamos conocer tu caso para determinar
+      de qué forma podemos ayudarte.
+      <br />
+      ¡Sólo debes programar una reunión conmigo en la fecha que veas mejor conveniente!
+    </p>
+  </section>
+</Layout>
+
+<style>
+  .custom-padding {
+    padding-top: calc(clamp(8rem, 12dvw, 6.5rem));
+  }
+
+  .vsl-video {
+    box-shadow: 0px 0px 25px 0px rgba(215, 0, 0, 0.4);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .vsl-video:hover {
+    box-shadow: 0px 0px 50px 0px rgba(215, 0, 0, 0.5);
+  }
+</style>
