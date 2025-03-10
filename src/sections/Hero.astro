@@ -5,6 +5,7 @@ import HeroBackground from "@images/hero-background.jpg";
 import HeroForeground from "@images/hero-foreground.png";
 import PrimaryButton from "src/components/ui/PrimaryButton.astro";
 import ModalForm from "src/components/ModalForm.astro";
+import { AnimatePresence } from "framer-motion";
 
 const benefitsList = [
   "Nutrición",
@@ -16,8 +17,6 @@ const benefitsList = [
 ];
 ---
 
-<ModalForm modalId="modal-form" />
-
 <section
   class="overflow-hidden relative min-h-dvh md:grid md:grid-cols-2 md:items-center"
   style="background: radial-gradient(
@@ -26,6 +25,9 @@ const benefitsList = [
       rgba(6, 0, 0, 1) 100%
     );"
 >
+  <AnimatePresence>
+    <ModalForm modalId="modal-form" />
+  </AnimatePresence>
   <div
     class="custom-padding max-md:h-dvh px-4 md:mt-10 flex flex-col justify-between relative z-20 lg:w-[90%] mx-auto"
   >
@@ -95,7 +97,7 @@ const benefitsList = [
         id="hero-foreground"
         src={HeroForeground}
         alt="Hero Foreground"
-        class="transition-transform duration-700 ease-out scale-0 opacity-0 absolute z-20 w-hero-foreground h-auto bottom-0"
+        class="transition-transform duration-700 ease-out scale-0 opacity-0 absolute z-20 w-[300px] md:w-hero-foreground h-auto bottom-0"
       />
     </div>
   </div>
@@ -104,94 +106,84 @@ const benefitsList = [
 </section>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const thunderIcon = document.getElementById("thunder-icon") as HTMLElement;
-    const heroForeground = document.getElementById(
-      "hero-foreground"
-    ) as HTMLElement;
-    const heroTitle = document.querySelector(".hero-title")! as HTMLElement;
-    const openModalFormBtn = document.getElementById(
-      "open-modal-form-btn"
-    ) as HTMLButtonElement;
-    const modalForm = document.getElementById(
-      "modal-form"
-    ) as HTMLDialogElement;
+  const thunderIcon = document.getElementById("thunder-icon") as HTMLElement;
+  const heroForeground = document.getElementById(
+    "hero-foreground"
+  ) as HTMLElement;
+  const heroTitle = document.querySelector(".hero-title")! as HTMLElement;
+  const openModalFormBtn = document.getElementById(
+    "open-modal-form-btn"
+  ) as HTMLButtonElement;
+  const modalForm = document.getElementById("modal-form") as HTMLDialogElement;
 
-    openModalFormBtn?.addEventListener("click", () => {
-      document.body.style.overflow = "hidden";
-      modalForm.showModal();
-    });
-
-    document.addEventListener("click", (event: MouseEvent) => {
-      if (event.target === modalForm) {
-        document.body.style.overflow = "auto";
-        modalForm.close();
-      }
-    });
-
-    const titleObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Al entrar en pantalla
-            entry.target.classList.replace(
-              "-translate-x-[80%]",
-              "translate-x-0"
-            );
-          } else {
-            // Al salir de la pantalla
-            entry.target.classList.replace(
-              "translate-x-0",
-              "-translate-x-[80%]"
-            );
-          }
-        });
-      },
-      { root: null, threshold: 0.1, rootMargin: "0px" }
-    );
-
-    // Observa el título
-    if (heroTitle) {
-      titleObserver.observe(heroTitle);
-      // También puedes usar animate(heroTitle, ...) acá
-    }
-
-    const observerThunderIcon = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const { isIntersecting } = entry;
-
-          if (isIntersecting) {
-            entry.target.classList.remove("-translate-y-60", "translate-x-40");
-            entry.target.classList.add("-translate-y-0", "translate-x-0");
-          } else {
-            entry.target.classList.remove("-translate-y-0", "translate-x-0");
-            entry.target.classList.add("-translate-y-60", "translate-x-40");
-          }
-        });
-      },
-      { root: null, threshold: 0.3, rootMargin: "0px" }
-    );
-    observerThunderIcon.observe(thunderIcon);
-
-    const observerForeground = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const { isIntersecting } = entry;
-
-          if (isIntersecting) {
-            entry.target.classList.remove("scale-0", "opacity-0");
-            entry.target.classList.add("scale-100", "opacity-100");
-          } else {
-            entry.target.classList.remove("scale-100", "opacity-100");
-            entry.target.classList.add("scale-0", "opacity-0");
-          }
-        });
-      },
-      { root: null, threshold: 0.3, rootMargin: "0px" }
-    );
-    observerForeground.observe(heroForeground);
+  openModalFormBtn?.addEventListener("click", () => {
+    document.body.style.overflow = "hidden";
+    modalForm.showModal();
   });
+
+  document.addEventListener("click", (event: MouseEvent) => {
+    if (event.target === modalForm) {
+      document.body.style.overflow = "auto";
+      modalForm.close();
+    }
+  });
+
+  const titleObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Al entrar en pantalla
+          entry.target.classList.replace("-translate-x-[80%]", "translate-x-0");
+        } else {
+          // Al salir de la pantalla
+          entry.target.classList.replace("translate-x-0", "-translate-x-[80%]");
+        }
+      });
+    },
+    { root: null, threshold: 0.1, rootMargin: "0px" }
+  );
+
+  // Observa el título
+  if (heroTitle) {
+    titleObserver.observe(heroTitle);
+    // También puedes usar animate(heroTitle, ...) acá
+  }
+
+  const observerThunderIcon = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const { isIntersecting } = entry;
+
+        if (isIntersecting) {
+          entry.target.classList.remove("-translate-y-60", "translate-x-40");
+          entry.target.classList.add("-translate-y-0", "translate-x-0");
+        } else {
+          entry.target.classList.remove("-translate-y-0", "translate-x-0");
+          entry.target.classList.add("-translate-y-60", "translate-x-40");
+        }
+      });
+    },
+    { root: null, threshold: 0.3, rootMargin: "0px" }
+  );
+  observerThunderIcon.observe(thunderIcon);
+
+  const observerForeground = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const { isIntersecting } = entry;
+
+        if (isIntersecting) {
+          entry.target.classList.remove("scale-0", "opacity-0");
+          entry.target.classList.add("scale-100", "opacity-100");
+        } else {
+          entry.target.classList.remove("scale-100", "opacity-100");
+          entry.target.classList.add("scale-0", "opacity-0");
+        }
+      });
+    },
+    { root: null, threshold: 0.3, rootMargin: "0px" }
+  );
+  observerForeground.observe(heroForeground);
 </script>
 
 <style>

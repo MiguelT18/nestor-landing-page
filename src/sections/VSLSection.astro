@@ -12,6 +12,7 @@ import Skeleton from "src/components/ui/Skeleton.astro";
     Te cuento cómo <span>puedes lograrlo...</span>
   </h1>
   <div
+    id="vsl-section-container"
     class="bg-primary-color/10 border-primary-color border-2 rounded-xl grid lg:grid-cols-2 gap-4 lg:gap-8 p-5 md:p-8"
   >
     <div class="space-y-5">
@@ -26,12 +27,11 @@ import Skeleton from "src/components/ui/Skeleton.astro";
       </div>
 
       <div class="space-y-2">
-        <h2 class="block text-white font-bold text-lg uppercase">
+        <h2 class="block text-white font-bold text-lg uppercase mb-4">
           Cómo mi plan ha ayudado a cientos de personas a conseguir sus
           objetivos 💪
         </h2>
-        <div class="w-fit flex items-center gap-4">
-          <LikeCounter client:load />
+        <div class="w-fit flex items-center gap-4 pb-4">
           <button
             type="button"
             id="share-button"
@@ -39,6 +39,7 @@ import Skeleton from "src/components/ui/Skeleton.astro";
           >
             Compartir
           </button>
+          <LikeCounter client:load />
         </div>
         <p
           class="block text-gray-400 leading-relaxed text-sm text-pretty w-full"
@@ -60,13 +61,13 @@ import Skeleton from "src/components/ui/Skeleton.astro";
         Solo cuando termines de llenar el formulario podrás agendar una reunión conmigo.
         Te veo del otro lado. 😉
       </p>
-      <Form client:load />
+      <Form client:only="react" />
     </div>
   </div>
 </section>
 
 <script>
-  import { animate } from "motion";
+  import { animate } from "framer-motion";
 
   document.addEventListener("DOMContentLoaded", () => {
     const popAnimation = (element: Object, state: string, duration: number) => {
@@ -116,6 +117,11 @@ import Skeleton from "src/components/ui/Skeleton.astro";
     const shareButton = document.getElementById(
       "share-button"
     ) as HTMLButtonElement;
+    const vslContainer = document.getElementById(
+      "vsl-section-container"
+    ) as HTMLElement;
+
+    animate(vslContainer, { height: "100%" }, { duration: 1 });
 
     shareButton?.addEventListener("click", () => {
       const text = "https://www.youtube.com";
@@ -147,7 +153,7 @@ import Skeleton from "src/components/ui/Skeleton.astro";
               animate(
                 entry.target,
                 { opacity: 1 },
-                { duration: DURATION, ease: "easeIn" }
+                { duration: DURATION, ease: "easeInOut" }
               );
             }, 500);
           } else {
@@ -155,7 +161,7 @@ import Skeleton from "src/components/ui/Skeleton.astro";
             animate(
               entry.target,
               { opacity: 0 },
-              { duration: DURATION, ease: "easeOut" }
+              { duration: DURATION, ease: "easeInOut" }
             );
           }
         });
@@ -165,7 +171,7 @@ import Skeleton from "src/components/ui/Skeleton.astro";
     noteObserver.observe(noteElement);
 
     const observer = new IntersectionObserver((entries) => {
-      const duration: number = 0.3;
+      const duration: number = 0.4;
 
       entries.forEach((entry) => {
         if (entry.isIntersecting) {

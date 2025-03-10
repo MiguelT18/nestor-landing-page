@@ -1,6 +1,7 @@
 import steps from "@data/form.json";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "typewriter-effect";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -12,6 +13,32 @@ type AnswerRecord = {
 };
 
 const STEPS_LEN = steps.length;
+
+const questionVariants = {
+  initial: {
+    x: "100%",
+    opacity: 0,
+  },
+  animate: {
+    x: "0%",
+    opacity: 1,
+    height: "auto",
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 10,
+      mass: 0.5,
+      height: { duration: 0.3 },
+    },
+  },
+  exit: {
+    opacity: 0,
+    height: "auto",
+    transition: {
+      height: { duration: 0.3 },
+    },
+  },
+};
 
 export default function Form() {
   const {
@@ -31,6 +58,7 @@ export default function Form() {
   const progress = Math.round(((currentStep + 1) / STEPS_LEN) * 100);
   // answers almacenará objetos { question, answer }, indexados por "step-1", "step-2", ...
   const [answers, setAnswers] = useState<Record<string, AnswerRecord>>({});
+  const [wasSent, setWasSent] = useState<boolean>(false);
 
   // Efecto que se ejecuta al montar: recupera currentStep y todas las respuestas
   useEffect(() => {
@@ -86,7 +114,29 @@ export default function Form() {
 
     // Si ya estamos en el último
     if (currentStep === STEPS_LEN - 1) {
-      console.log("Respuestas finales:", answers);
+      if (wasSent) return;
+      setWasSent(true);
+      try {
+        const res = await fetch("/api/send-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(answers),
+        });
+
+        if (!res.ok) {
+          throw new Error("Error al enviar el formulario");
+        }
+
+        alert("¡Gracias por tu tiempo! Hemos recibido tus respuestas.");
+      } catch (error) {
+        console.error("Error al enviar respuestas:", error);
+        alert("Hubo un error al enviar tus respuestas. Inténtalo de nuevo.");
+        setWasSent(false);
+      }
+
+      localStorage.clear();
       window.location.pathname = "/schedule";
     } else {
       setCurrentStep((prev) => prev + 1);
@@ -99,13 +149,24 @@ export default function Form() {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleNext();
+    }
+  };
+
   const { question, label, type, options } = steps[currentStep];
   const stepKey = `step-${currentStep + 1}`;
   const record = answers[stepKey];
   let savedValue = record?.answer;
 
   return (
-    <div className="size-full flex flex-col justify-between">
+    <div
+      className="size-full flex flex-col justify-between"
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+    >
       <div className="mb-8">
         <div className="mb-5">
           <div className="flex justify-between items-center gap-2 mb-2 [&>span]:text-sm [&>span]:block [&>span]:w-fit [&>span]:text-gray-400">
@@ -124,7 +185,7 @@ export default function Form() {
               key={currentStep}
               options={{
                 autoStart: true,
-                delay: 40,
+                delay: 30,
                 loop: false,
               }}
               onInit={(typewriter) => {
@@ -135,241 +196,253 @@ export default function Form() {
           {label && <span className="text-gray-400 text-sm">{label}</span>}
         </div>
 
-        {type === "single-choice" && (
-          <ul className="space-y-2">
-            {options?.map((opt: string, idx: number) => {
-              const isSelected = savedValue === opt;
-              return (
-                <li key={idx}>
-                  <label className="cursor-pointer text-sm flex items-center gap-2 hover:text-primary-color/80 transition-all">
-                    <div className="relative size-fit">
-                      <input
-                        {...register(`step-${currentStep}`, {
-                          required: "Este campo es obligatorio",
-                        })}
-                        type="radio"
-                        value={opt}
-                        checked={isSelected}
-                        onChange={() => handleAnswerChange(opt)}
-                        className="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-gray-500 hover:bg-primary-color/30 checked:border-gray-300 checked:bg-primary-color/30 transition-all"
-                      />
-                      <span className="absolute bg-gray-300 w-2 h-2 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[90%]"></span>
-                    </div>
-                    <span
-                      className={`block w-full p-2 rounded-md hover:bg-primary-color/25 ${
-                        isSelected
-                          ? "text-primary-color bg-primary-color/25"
-                          : ""
-                      }`}
-                    >
-                      {opt}
-                    </span>
-                  </label>
-                </li>
-              );
-            })}
-            {errors[`step-${currentStep}`] && (
-              <span className="block text-orange-500 mt-2 text-xs">
-                {errors[`step-${currentStep}`]?.message?.toString()}
-              </span>
-            )}
-          </ul>
-        )}
-
-        {type === "multiple-choice" && (
-          <ul className="space-y-2">
-            {options?.map((opt: string, idx: number) => {
-              // Creamos una variable multipleChoiceVal SIEMPRE array
-              const multipleChoiceVal: string[] = Array.isArray(savedValue)
-                ? savedValue
-                : [];
-              const isChecked = multipleChoiceVal.includes(opt);
-
-              const handleCheckChange = () => {
-                let newVal: string[];
-                if (isChecked) {
-                  // Filtrar la opción
-                  newVal = multipleChoiceVal.filter((o) => o !== opt);
-                } else {
-                  // Agregarla
-                  newVal = [...multipleChoiceVal, opt];
-                }
-                handleAnswerChange(newVal);
-              };
-
-              return (
-                <li key={idx}>
-                  <label className="cursor-pointer text-sm flex items-center gap-4 hover:text-primary-color transition-all">
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        {...register(`step-${currentStep}-cb`, {
-                          required: "Este campo es obligatorio",
-                        })}
-                        value={opt}
-                        checked={isChecked}
-                        onChange={handleCheckChange}
-                        className="peer h-5 w-5 cursor-pointer appearance-none rounded-sm border border-gray-500 hover:bg-primary-color/30 checked:border-gray-300 checked:bg-primary-color/30 transition-all"
-                      />
-                      <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[70%] pointer-events-none">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-3.5 w-3.5"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          stroke="currentColor"
-                          strokeWidth="1"
+        <AnimatePresence initial={false} mode="wait">
+          <motion.div
+            key={currentStep}
+            variants={questionVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="size-full"
+            style={{ originX: 0, originY: 0 }}
+          >
+            {type === "single-choice" && (
+              <ul className="space-y-2">
+                {options?.map((opt: string, idx: number) => {
+                  const isSelected = savedValue === opt;
+                  return (
+                    <li key={idx}>
+                      <label className="cursor-pointer text-sm flex items-center gap-2 hover:text-primary-color/80 transition-all">
+                        <div className="relative size-fit">
+                          <input
+                            {...register(`step-${currentStep}`, {
+                              required: "Este campo es obligatorio",
+                            })}
+                            type="radio"
+                            value={opt}
+                            checked={isSelected}
+                            onChange={() => handleAnswerChange(opt)}
+                            className="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-gray-500 hover:bg-primary-color/30 checked:border-gray-300 checked:bg-primary-color/30 transition-all"
+                          />
+                          <span className="absolute bg-gray-300 w-2 h-2 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[90%]"></span>
+                        </div>
+                        <span
+                          className={`block w-full p-2 rounded-md hover:bg-primary-color/25 ${
+                            isSelected
+                              ? "text-primary-color bg-primary-color/25"
+                              : ""
+                          }`}
                         >
-                          <path
-                            fillRule="evenodd"
-                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                            clipRule="evenodd"
-                          ></path>
-                        </svg>
-                      </span>
-                    </div>
-
-                    <span
-                      className={`block w-full p-2 rounded-md hover:bg-primary-color/25 ${
-                        isChecked
-                          ? "text-primary-color bg-primary-color/25"
-                          : ""
-                      }`}
-                    >
-                      {opt}
-                    </span>
-                  </label>
-                </li>
-              );
-            })}
-            {errors[`step-${currentStep}-cb`] && (
-              <span className="block text-orange-500 mt-2 text-xs">
-                {errors[`step-${currentStep}-cb`]?.message?.toString()}
-              </span>
+                          {opt}
+                        </span>
+                      </label>
+                    </li>
+                  );
+                })}
+                {errors[`step-${currentStep}`] && (
+                  <span className="block text-orange-500 mt-2 text-xs">
+                    {errors[`step-${currentStep}`]?.message?.toString()}
+                  </span>
+                )}
+              </ul>
             )}
-          </ul>
-        )}
 
-        {type === "text" && (
-          <div>
-            <input
-              type="text"
-              placeholder="Escribe tu respuesta"
-              {...register(`step-${currentStep}`, {
-                required: "Este campo es obligatorio",
-                minLength: {
-                  value: 3,
-                  message: "Debe tener al menos 3 caracteres",
-                },
-              })}
-              value={typeof savedValue === "string" ? savedValue : ""}
-              onChange={(e) => handleAnswerChange(e.target.value)}
-              className="w-full p-2 rounded-md bg-primary-color/10 placeholder:text-gray-400 focus:outline-none focus:bg-primary-color/20 text-sm"
-            />
-            {errors[`step-${currentStep}`] && (
-              <span className="block text-orange-500 mt-2 text-xs">
-                {errors[`step-${currentStep}`]?.message?.toString()}
-              </span>
+            {type === "multiple-choice" && (
+              <ul className="space-y-2">
+                {options?.map((opt: string, idx: number) => {
+                  // Creamos una variable multipleChoiceVal SIEMPRE array
+                  const multipleChoiceVal: string[] = Array.isArray(savedValue)
+                    ? savedValue
+                    : [];
+                  const isChecked = multipleChoiceVal.includes(opt);
+
+                  const handleCheckChange = () => {
+                    let newVal: string[];
+                    if (isChecked) {
+                      // Filtrar la opción
+                      newVal = multipleChoiceVal.filter((o) => o !== opt);
+                    } else {
+                      // Agregarla
+                      newVal = [...multipleChoiceVal, opt];
+                    }
+                    handleAnswerChange(newVal);
+                  };
+
+                  return (
+                    <li key={idx}>
+                      <label className="cursor-pointer text-sm flex items-center gap-4 hover:text-primary-color transition-all">
+                        <div className="relative">
+                          <input
+                            type="checkbox"
+                            {...register(`step-${currentStep}-cb`, {
+                              required: "Este campo es obligatorio",
+                            })}
+                            value={opt}
+                            checked={isChecked}
+                            onChange={handleCheckChange}
+                            className="peer h-5 w-5 cursor-pointer appearance-none rounded-sm border border-gray-500 hover:bg-primary-color/30 checked:border-gray-300 checked:bg-primary-color/30 transition-all"
+                          />
+                          <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[70%] pointer-events-none">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-3.5 w-3.5"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              stroke="currentColor"
+                              strokeWidth="1"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              ></path>
+                            </svg>
+                          </span>
+                        </div>
+
+                        <span
+                          className={`block w-full p-2 rounded-md hover:bg-primary-color/25 ${
+                            isChecked
+                              ? "text-primary-color bg-primary-color/25"
+                              : ""
+                          }`}
+                        >
+                          {opt}
+                        </span>
+                      </label>
+                    </li>
+                  );
+                })}
+                {errors[`step-${currentStep}-cb`] && (
+                  <span className="block text-orange-500 mt-2 text-xs">
+                    {errors[`step-${currentStep}-cb`]?.message?.toString()}
+                  </span>
+                )}
+              </ul>
             )}
-          </div>
-        )}
 
-        {type === "tel" && (
-          <div className="inline-block">
-            <PhoneInput
-              country="bo"
-              value={phone}
-              disableSearchIcon={true}
-              placeholder="(201) 555-0123"
-              enableSearch={true}
-              specialLabel=""
-              searchPlaceholder="Busca país..."
-              searchClass="tel-search-custom"
-              containerClass="tel-container-custom"
-              inputClass="tel-input-custom"
-              buttonClass="tel-button-custom"
-              dropdownClass="tel-dropdown-custom"
-              {...register(`step-${currentStep}`, {
-                required: "Tu número de teléfono es obligatorio",
-                pattern: {
-                  value: /^\+?\d{7,15}$/,
-                  message: "Número de teléfono inválido",
-                },
-              })}
-              onChange={(value, countryData) => {
-                let dialCode = "";
-                if (countryData && typeof countryData === "object") {
-                  if ("dialCode" in countryData) {
-                    dialCode = (countryData as any).dialCode;
-                  } else if ("dial_code" in countryData) {
-                    dialCode = (countryData as any).dial_code;
-                  }
-                }
-
-                if (!dialCode) {
-                  const match = value.match(/^\+(\d+)/);
-                  dialCode = match ? match[1] : "";
-                }
-
-                let raw = value;
-                if (raw.startsWith(`+${dialCode}`)) {
-                  raw = raw.slice(dialCode.length + 1);
-                } else if (raw.startsWith(dialCode)) {
-                  raw = raw.slice(dialCode.length);
-                }
-
-                const formatted = dialCode
-                  ? `+${dialCode} ${raw.trim()}`
-                  : value;
-                setPhone(formatted);
-                handleAnswerChange(formatted);
-
-                setValue(`step-${currentStep}`, value, {
-                  shouldValidate: true,
-                });
-                trigger(`step-${currentStep}`);
-              }}
-            />
-
-            {errors[`step-${currentStep}`] && (
-              <span className="block text-orange-500 mt-2 text-xs">
-                {errors[`step-${currentStep}`]?.message?.toString()}
-              </span>
+            {type === "text" && (
+              <div>
+                <input
+                  type="text"
+                  placeholder="Escribe tu respuesta"
+                  {...register(`step-${currentStep}`, {
+                    required: "Este campo es obligatorio",
+                    minLength: {
+                      value: 3,
+                      message: "Debe tener al menos 3 caracteres",
+                    },
+                  })}
+                  value={typeof savedValue === "string" ? savedValue : ""}
+                  onChange={(e) => handleAnswerChange(e.target.value)}
+                  className="w-full p-2 rounded-md bg-[#2A0000] placeholder:text-gray-500 focus:outline-none focus:bg-[#3D0000] text-sm"
+                />
+                {errors[`step-${currentStep}`] && (
+                  <span className="block text-orange-500 mt-2 text-xs">
+                    {errors[`step-${currentStep}`]?.message?.toString()}
+                  </span>
+                )}
+              </div>
             )}
-          </div>
-        )}
 
-        {type === "email" && (
-          <div>
-            <input
-              {...register(`step-${currentStep}`, {
-                required: "Tu correo es obligatorio",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.com$/,
-                  message: "Correo electrónico inválido",
-                },
-              })}
-              type="email"
-              placeholder="example@test.xyz"
-              className="w-full p-2 rounded-md bg-primary-color/10 placeholder:text-gray-400 focus:outline-none focus:bg-primary-color/20 text-sm"
-            />
-            {errors[`step-${currentStep}`] && (
-              <span className="block text-orange-500 mt-2 text-xs">
-                {errors[`step-${currentStep}`]?.message?.toString()}
-              </span>
+            {type === "tel" && (
+              <div className="inline-block">
+                <PhoneInput
+                  country="bo"
+                  value={phone}
+                  disableSearchIcon={true}
+                  placeholder="(201) 555-0123"
+                  enableSearch={true}
+                  specialLabel=""
+                  searchPlaceholder="Busca país..."
+                  searchClass="tel-search-custom"
+                  containerClass="tel-container-custom"
+                  inputClass="tel-input-custom"
+                  buttonClass="tel-button-custom"
+                  dropdownClass="tel-dropdown-custom"
+                  {...register(`step-${currentStep}`, {
+                    required: "Tu número de teléfono es obligatorio",
+                    pattern: {
+                      value: /^\+?\d{7,15}$/,
+                      message: "Número de teléfono inválido",
+                    },
+                  })}
+                  onChange={(value, countryData) => {
+                    let dialCode = "";
+                    if (countryData && typeof countryData === "object") {
+                      if ("dialCode" in countryData) {
+                        dialCode = (countryData as any).dialCode;
+                      } else if ("dial_code" in countryData) {
+                        dialCode = (countryData as any).dial_code;
+                      }
+                    }
+
+                    if (!dialCode) {
+                      const match = value.match(/^\+(\d+)/);
+                      dialCode = match ? match[1] : "";
+                    }
+
+                    let raw = value;
+                    if (raw.startsWith(`+${dialCode}`)) {
+                      raw = raw.slice(dialCode.length + 1);
+                    } else if (raw.startsWith(dialCode)) {
+                      raw = raw.slice(dialCode.length);
+                    }
+
+                    const formatted = dialCode
+                      ? `+${dialCode} ${raw.trim()}`
+                      : value;
+                    setPhone(formatted);
+                    handleAnswerChange(formatted);
+
+                    setValue(`step-${currentStep}`, value, {
+                      shouldValidate: true,
+                    });
+                    trigger(`step-${currentStep}`);
+                  }}
+                />
+
+                {errors[`step-${currentStep}`] && (
+                  <span className="block text-orange-500 mt-2 text-xs">
+                    {errors[`step-${currentStep}`]?.message?.toString()}
+                  </span>
+                )}
+              </div>
             )}
-          </div>
-        )}
 
-        {type === "textarea" && (
-          <textarea
-            rows={4}
-            placeholder="Cuéntanos más..."
-            value={typeof savedValue === "string" ? savedValue : ""}
-            onChange={(e) => handleAnswerChange(e.target.value)}
-            className="w-full p-2 rounded-md bg-primary-color/10 placeholder:text-gray-400 focus:outline-none focus:bg-primary-color/20 text-sm resize-none"
-          />
-        )}
+            {type === "email" && (
+              <div>
+                <input
+                  {...register(`step-${currentStep}`, {
+                    required: "Tu correo es obligatorio",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.com$/,
+                      message: "Correo electrónico inválido",
+                    },
+                  })}
+                  type="email"
+                  placeholder="example@test.xyz"
+                  className="w-full p-2 rounded-md bg-[#2A0000] placeholder:text-gray-500 focus:outline-none focus:bg-[#3D0000] text-sm"
+                />
+                {errors[`step-${currentStep}`] && (
+                  <span className="block text-orange-500 mt-2 text-xs">
+                    {errors[`step-${currentStep}`]?.message?.toString()}
+                  </span>
+                )}
+              </div>
+            )}
+
+            {type === "textarea" && (
+              <textarea
+                rows={4}
+                placeholder="Cuéntanos más..."
+                value={typeof savedValue === "string" ? savedValue : ""}
+                onChange={(e) => handleAnswerChange(e.target.value)}
+                className="w-full p-2 rounded-md bg-primary-color/10 placeholder:text-gray-500 focus:outline-none focus:bg-primary-color/20 text-sm resize-none"
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       <div className="flex max-md:flex-col md:justify-between gap-4 justify-center">
@@ -381,8 +454,10 @@ export default function Form() {
           Anterior
         </button>
         <button
+          type="submit"
+          disabled={wasSent}
           onClick={handleNext}
-          className="bg-primary-color/50 hover:bg-primary-color/70 transition-all text-sm leading-tight tracking-wide px-4 py-3 rounded-md w-full"
+          className="bg-primary-color/50 hover:bg-primary-color/70 transition-all text-sm leading-tight tracking-wide px-4 py-3 rounded-md w-full disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-primary-color/50"
         >
           {currentStep === steps.length - 1 ? "Enviar" : "Siguiente"}
         </button>

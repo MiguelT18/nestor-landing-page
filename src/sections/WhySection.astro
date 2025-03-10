@@ -3,13 +3,16 @@ import { Image } from "astro:assets";
 import PrimaryButton from "src/components/ui/PrimaryButton.astro";
 import WhySectionImage from "@images/why-section-image.jpg";
 import ModalForm from "src/components/ModalForm.astro";
+import { AnimatePresence } from "framer-motion";
 ---
-
-<ModalForm modalId="why-modal-form" />
 
 <section
   class="grid grid-cols-1 lg:grid-cols-2 items-center max-lg:justify-items-center gap-5 lg:gap-10 container mx-auto px-4 mb-36"
 >
+  <AnimatePresence>
+    <ModalForm modalId="why-modal-form" />
+  </AnimatePresence>
+
   <div class="space-y-5 w-[90%] text-center lg:text-start">
     <h1
       class="[&>span]:text-primary-color text-white text-lg-title text-balance font-alfa-slab-one leading-relaxed uppercase"

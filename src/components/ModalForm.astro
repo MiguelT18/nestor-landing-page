@@ -6,12 +6,83 @@ const { modalId } = Astro.props;
 
 <dialog
   id={modalId}
-  class="backdrop:bg-black/50 backdrop:backdrop-blur-sm w-full md:w-[70%] rounded-xl p-5 bg-black outline-none overflow-hidden border-2 border-primary-color/50"
+  class="framer-dialog backdrop:bg-black/50 backdrop:backdrop-blur-sm w-full max-w-[700px] max-sm:w-[90%] rounded-xl p-5 bg-black outline-none overflow-x-hidden border-2 border-primary-color/50"
 >
   <h2 class="text-lg uppercase font-bold font-alfa-slab-one text-center mb-5">
     Primero tengo que saber algunas <span class="text-primary-color"
       >cosas sobre ti...</span
     >
   </h2>
-  <Form client:load />
+  <Form client:only="react" />
 </dialog>
+
+<script>
+  import { animate } from "framer-motion";
+
+  // Definición de variantes para la animación
+  const modalVariants = {
+    initial: { scale: 0, opacity: 0 },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.3,
+        type: "spring",
+        stiffness: 300,
+        damping: 10,
+        mass: 0.5,
+      },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0,
+      transition: {
+        duration: 0.3,
+        type: "spring",
+        stiffness: 300,
+        damping: 10,
+        mass: 0.5,
+      },
+    },
+  };
+
+  // Selecciona todos los dialog con la clase "framer-dialog"
+  const dialogs = document.querySelectorAll(
+    "dialog.framer-dialog"
+  ) as NodeListOf<HTMLDialogElement>;
+
+  dialogs.forEach((dialog) => {
+    // Guarda las funciones originales
+    const originalShowModal = dialog.showModal.bind(dialog);
+    const originalClose = dialog.close.bind(dialog);
+
+    // Sobrescribe el método showModal para animar la apertura
+    dialog.showModal = function () {
+      originalShowModal();
+      // Establece el estado inicial de la animación
+      dialog.style.transform = "scale(0.5)";
+      // Forzar reflow para asegurarse que el navegador aplique el estilo
+      dialog.getBoundingClientRect();
+      requestAnimationFrame(() => {
+        animate(dialog, modalVariants.animate);
+      });
+    };
+
+    // Sobrescribe el método close para animar el cierre
+    dialog.close = function () {
+      // Ejecuta la animación de salida y, al completarse, cierra el modal
+      animate(dialog, modalVariants.exit).then(() => {
+        originalClose();
+        // Opcional: restablece el transform para futuras aperturas
+        dialog.style.transform = "";
+      });
+    };
+
+    // Opcional: Cierra el modal si se hace clic fuera del contenido
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) {
+        dialog.close();
+      }
+    });
+  });
+</script>

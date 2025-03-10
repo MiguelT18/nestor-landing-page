@@ -1,14 +1,9 @@
 [
   {
     "step": 1,
-    "question": "¿Cuál es el rango de edad?",
-    "label": "Selecciona el rango de edad",
-    "type": "single-choice",
-    "options": [
-      "18 a 34 años",
-      "35 a 45 años",
-      "Más de 45 años"
-    ]
+    "question": "¿Cuál es tu nombre?",
+    "label": "Escribe tu nombre completo",
+    "type": "text"
   },
   {
     "step": 2,
@@ -96,9 +91,14 @@
   },
   {
     "step": 10,
-    "question": "¿Cuál es tu nombre?",
-    "label": "Escribe tu nombre",
-    "type": "text"
+    "question": "¿Cuál es el rango de edad?",
+    "label": "Selecciona el rango de edad",
+    "type": "single-choice",
+    "options": [
+      "18 a 34 años",
+      "35 a 45 años",
+      "Más de 45 años"
+    ]
   },
   {
     "step": 11,
