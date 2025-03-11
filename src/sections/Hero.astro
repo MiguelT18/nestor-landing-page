@@ -77,6 +77,8 @@ const benefitsList = [
         src={HeroBackground}
         alt="Hero Background"
         class="size-full object-cover md:-scale-x-100"
+        loading="eager"
+        decoding="sync"
       />
       <div
         class="backdrop-blur-sm max-md:hidden absolute inset-0 pointer-events-none"
@@ -98,6 +100,8 @@ const benefitsList = [
         src={HeroForeground}
         alt="Hero Foreground"
         class="transition-transform duration-700 ease-out scale-0 opacity-0 absolute z-20 w-[300px] md:w-hero-foreground h-auto bottom-0"
+        loading="eager"
+        decoding="sync"
       />
     </div>
   </div>
