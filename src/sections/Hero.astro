@@ -73,12 +73,10 @@ const benefitsList = [
       class="overflow-hidden md:relative size-full max-md:absolute max-md:top-0 max-md:-z-10"
       style="background: radial-gradient(closest-side,rgba(0, 0, 0, 0) 0%,rgba(0, 0, 0, 0.65) 100%);"
     >
-      <Image
-        src={HeroBackground}
+      <img
+        src="/assets/images/hero-background.jpg"
         alt="Hero Background"
         class="size-full object-cover md:-scale-x-100"
-        loading="eager"
-        decoding="sync"
       />
       <div
         class="backdrop-blur-sm max-md:hidden absolute inset-0 pointer-events-none"
@@ -95,13 +93,11 @@ const benefitsList = [
         name="thunder-vector"
         class="transition-transform duration-1000 z-20 -translate-y-60 translate-x-40 size-full absolute top-0 text-white/50"
       />
-      <Image
+      <img
         id="hero-foreground"
-        src={HeroForeground}
+        src="/assets/images/hero-foreground.png"
         alt="Hero Foreground"
         class="transition-transform duration-700 ease-out scale-0 opacity-0 absolute z-20 w-[300px] md:w-hero-foreground h-auto bottom-0"
-        loading="eager"
-        decoding="sync"
       />
     </div>
   </div>

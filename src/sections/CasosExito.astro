@@ -1,14 +1,14 @@
 ---
 import { Icon } from "astro-icon/components";
-import Image1 from "public/assets/images/casos-de-exito/1_antes_despues.png";
-import Image2 from "/public/assets/images/casos-de-exito/2_antes_despues.png";
-import Image3 from "/public/assets/images/casos-de-exito/3_antes_despues.png";
-import Image4 from "/public/assets/images/casos-de-exito/4_antes_despues.png";
-import Image5 from "/public/assets/images/casos-de-exito/5_antes_despues.png";
-import Image6 from "/public/assets/images/casos-de-exito/6_antes_despues.png";
-import { Image } from "astro:assets";
 
-const images = [Image1, Image2, Image3, Image4, Image5, Image6];
+const images = [
+  "/assets/images/casos-de-exito/1_antes_despues.png",
+  "/assets/images/casos-de-exito/2_antes_despues.png",
+  "/assets/images/casos-de-exito/3_antes_despues.png",
+  "/assets/images/casos-de-exito/4_antes_despues.png",
+  "/assets/images/casos-de-exito/5_antes_despues.png",
+  "/assets/images/casos-de-exito/6_antes_despues.png",
+];
 
 const cards = [
   {
@@ -68,7 +68,7 @@ const cards = [
           <div class="absolute opacity-0 group-hover:opacity-100 size-full bg-black/50 backdrop-blur-sm top-0 left-0 z-10 transition-all grid place-content-center">
             <Icon name="eye-icon" class="size-12 md:size-16 text-white" />
           </div>
-          <Image
+          <img
             src={image}
             alt="Antes y después de un cliente"
             class="size-full aspect-square object-cover group-hover:scale-110 transition-transform duration-300"

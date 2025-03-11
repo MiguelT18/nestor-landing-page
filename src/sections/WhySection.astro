@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import PrimaryButton from "src/components/ui/PrimaryButton.astro";
 import WhySectionImage from "@images/why-section-image.jpg";
 import ModalForm from "src/components/ModalForm.astro";
@@ -34,8 +33,8 @@ import { AnimatePresence } from "framer-motion";
     class="h-auto w-full aspect-video border-2 rounded-xl mt-8 transition-transform duration-500 ease-out border-primary-color"
     style="box-shadow: 0px 0px 25px 0px rgba(215, 0, 0, 0.5);"
   >
-    <Image
-      src={WhySectionImage}
+    <img
+      src="/assets/images/why-section-image.jpg"
       alt="Una imagen de Néstor mostrando su cambio físico"
       class="size-full object-cover"
       style="border-radius: inherit;"
