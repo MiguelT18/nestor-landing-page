@@ -1,7 +1,5 @@
 ---
 import "@fontsource/alfa-slab-one";
-import { Image } from "astro:assets";
-import TransparentBrandLogo from "@images/logo-transparent.png";
 ---
 
 <!doctype html>
@@ -18,12 +16,10 @@ import TransparentBrandLogo from "@images/logo-transparent.png";
       class="bg-black/70 backdrop-blur-sm border-solid min-h-[10dvh] border-primary-color border-b-2 w-full flex items-center justify-center absolute top-0 z-50"
       style="box-shadow: 0px 10px 15px 0px rgba(215, 0, 0, 0.3);"
     >
-      <Image
+      <img
         class="w-nav-logo h-full"
-        src={TransparentBrandLogo}
+        src="/assets/images/logo-transparent.png"
         alt="Nestor Arce Logo Oficial"
-        loading="eager"
-        decoding="sync"
       />
     </nav>
 
