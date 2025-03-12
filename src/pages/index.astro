@@ -16,3 +16,8 @@ import FAQ from 'src/sections/FAQ.astro'
   <WhySection />
   <FAQ />
 </Layout>
+
+<script>
+    const token = localStorage.getItem("form-token");
+    if (token) localStorage.removeItem("form-token");
+</script>

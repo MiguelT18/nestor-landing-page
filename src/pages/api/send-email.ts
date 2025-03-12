@@ -7,7 +7,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   const data = await request.json();
 
-  try {
+  try {    
     const doc = new jsPDF();
 
     let y_position = 20;
@@ -170,24 +170,36 @@ export const POST: APIRoute = async ({ request }) => {
 
         // Agregar la respuesta al PDF
         if (Array.isArray(answer)) {
-          answer.forEach((item) => {
-            const answerLines = splitLongText(
-              item,
-              12,
-              "normal",
-              availableWidth - answerIndent
-            );
-            answerLines.forEach((line) => {
+            answer.forEach((item) => {
+              // Agrega el bulletPoint solo al inicio de la respuesta
+              const answerLines = splitLongText(
+                item,
+                12,
+                "normal",
+                availableWidth - answerIndent
+              );
+              // Agrega el bulletPoint solo a la primera línea
+              const firstLine = bulletPoint + answerLines[0];
               y_position = addWrappedText(
-                bulletPoint + line,
+                firstLine,
                 margin + answerIndent,
                 y_position,
                 availableWidth - answerIndent,
                 12,
                 "normal"
               );
+              // Agrega las líneas restantes sin bulletPoint
+              answerLines.slice(1).forEach((line) => {
+                y_position = addWrappedText(
+                  line,
+                  margin + answerIndent,
+                  y_position,
+                  availableWidth - answerIndent,
+                  12,
+                  "normal"
+                );
+              });
             });
-          });
         } else {
           const answerLines = splitLongText(
             answer,

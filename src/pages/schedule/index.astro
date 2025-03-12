@@ -38,6 +38,11 @@ import PrimaryButton from "src/components/ui/PrimaryButton.astro";
   <script>
     import { animate } from "framer-motion";
 
+    const token = localStorage.getItem("form-token");
+
+    if (!token) window.location.href = "/";
+    console.log(token);
+
     const scheduleVideo = document.querySelector(
       "#schedule-video"
     ) as HTMLElement;
@@ -46,7 +51,7 @@ import PrimaryButton from "src/components/ui/PrimaryButton.astro";
     ) as HTMLButtonElement;
 
     scheduleButton?.addEventListener("click", () => {
-      const calendlyLink = "https://calendly.com/miguel-teranj02";
+      const calendlyLink = "https://calendly.com/d/cm4z-ctd-wp2/reunion-puntual";
       window.location.href = calendlyLink;
     });
 

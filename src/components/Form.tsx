@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "typewriter-effect";
 import PhoneInput from "react-phone-input-2";
+import { v4 as uuidv4 } from 'uuid';
 import "react-phone-input-2/lib/style.css";
 import "./styles.css";
 
@@ -116,6 +117,11 @@ export default function Form() {
     if (currentStep === STEPS_LEN - 1) {
       if (wasSent) return;
       setWasSent(true);
+      const TOKEN_EXPIRATION_MS = 3600 * 1000;
+      const token = uuidv4();
+      const expires = new Date(Date.now() + TOKEN_EXPIRATION_MS)
+      localStorage.setItem("form-token", JSON.stringify({ token, expires }))
+
       try {
         const res = await fetch("/api/send-email", {
           method: "POST",
@@ -136,7 +142,11 @@ export default function Form() {
         setWasSent(false);
       }
 
-      localStorage.clear();
+      localStorage.removeItem("currentStep");
+      for (let i = 0; i < STEPS_LEN; i++) {
+        const key = `step-${i + 1}`;
+        localStorage.removeItem(key);
+      }
       window.location.pathname = "/schedule";
     } else {
       setCurrentStep((prev) => prev + 1);
@@ -240,7 +250,7 @@ export default function Form() {
                   );
                 })}
                 {errors[`step-${currentStep}`] && (
-                  <span className="block text-orange-500 mt-2 text-xs">
+                  <span className="block text-orange-500 mt-2 text-sm">
                     {errors[`step-${currentStep}`]?.message?.toString()}
                   </span>
                 )}
@@ -314,7 +324,7 @@ export default function Form() {
                   );
                 })}
                 {errors[`step-${currentStep}-cb`] && (
-                  <span className="block text-orange-500 mt-2 text-xs">
+                  <span className="block text-orange-500 mt-2 text-sm">
                     {errors[`step-${currentStep}-cb`]?.message?.toString()}
                   </span>
                 )}
@@ -335,10 +345,11 @@ export default function Form() {
                   })}
                   value={typeof savedValue === "string" ? savedValue : ""}
                   onChange={(e) => handleAnswerChange(e.target.value)}
+                  onKeyDown={handleKeyDown}
                   className="w-full p-2 rounded-md bg-[#2A0000] placeholder:text-gray-500 focus:outline-none focus:bg-[#3D0000] text-sm"
                 />
                 {errors[`step-${currentStep}`] && (
-                  <span className="block text-orange-500 mt-2 text-xs">
+                  <span className="block text-orange-500 mt-2 text-sm">
                     {errors[`step-${currentStep}`]?.message?.toString()}
                   </span>
                 )}
@@ -403,7 +414,7 @@ export default function Form() {
                 />
 
                 {errors[`step-${currentStep}`] && (
-                  <span className="block text-orange-500 mt-2 text-xs">
+                  <span className="block text-orange-500 mt-2 text-sm">
                     {errors[`step-${currentStep}`]?.message?.toString()}
                   </span>
                 )}
@@ -422,10 +433,13 @@ export default function Form() {
                   })}
                   type="email"
                   placeholder="example@test.xyz"
+                  value={typeof savedValue === "string" ? savedValue : ""}
+                  onChange={(e) => handleAnswerChange(e.target.value)}
+                  onKeyDown={handleKeyDown}
                   className="w-full p-2 rounded-md bg-[#2A0000] placeholder:text-gray-500 focus:outline-none focus:bg-[#3D0000] text-sm"
                 />
                 {errors[`step-${currentStep}`] && (
-                  <span className="block text-orange-500 mt-2 text-xs">
+                  <span className="block text-orange-500 mt-2 text-sm">
                     {errors[`step-${currentStep}`]?.message?.toString()}
                   </span>
                 )}
